@@ -253,11 +253,8 @@
           </div>
         </div>
         <div class="contact-right">
-          <form class="cform" method="POST" action="https://api.web3forms.com/submit">
-            <input type="hidden" name="access_key" value="fa93b42e-b87b-4a70-8e40-31db6a451839">
-            <input type="hidden" name="subject" value="New enquiry — Vividex">
-            <input type="hidden" name="redirect" value="https://vividex.au/success.html">
-            <input type="checkbox" name="botcheck" style="display:none">
+          <form class="cform" method="POST" action="/api/contact">
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
             <div class="cform-row">
               <label>Name<input type="text" name="name" placeholder="Your name" required></label>
               <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
