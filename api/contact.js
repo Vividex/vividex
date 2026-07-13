@@ -29,6 +29,7 @@ export default async function handler(req, res) {
     prefix: key ? key.slice(0, 3) : null,
     suffix: key ? key.slice(-4) : null,
   });
+  console.log('DEBUG from field:', JSON.stringify(FROM), 'raw env:', JSON.stringify(process.env.RESEND_FROM_EMAIL));
 
   try {
     const resendRes = await fetch('https://api.resend.com/emails', {
