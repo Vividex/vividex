@@ -4,241 +4,298 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Vividex designs and builds websites, web applications, and custom software for Australian small businesses and startups.">
-  <meta property="og:title" content="Vividex | Web Design and Software Development">
-  <meta property="og:description" content="Professional websites, web apps, and custom software for Australian small businesses and startups. Delivered properly, with clear communication throughout.">
+  <meta property="og:title" content="Vividex | Web Design & Software Development">
+  <meta property="og:description" content="Professional websites, web apps, and custom software for Australian small businesses.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/vividex-logo-cropped.png">
   <meta name="theme-color" content="#05070b">
   <meta name="google-site-verification" content="6Z0rqZn6SbmBBxneNiJGStjnxknbRWDVysM5qJ7TdhY">
-  <title>Vividex | Web Design and Software Development</title>
+  <title>Vividex | Web Design & Software Development</title>
   <link rel="canonical" href="https://vividex.au/">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Vividex home">
-      <img src="assets/vividex-logo-cropped.png" alt="Vividex">
-    </a>
-    <nav class="site-nav" aria-label="Primary navigation">
+
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- ░░ NAV ░░ -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top">VIVIDEX</a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#work">Work</a>
       <a href="#process">Process</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="nav-cta" href="#contact">Send an enquiry</a>
+    <a class="nav-cta" href="#contact">Get in touch</a>
   </header>
 
   <main id="top">
+
+    <!-- ░░ HERO ░░ -->
     <section class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">Web design &amp; software development</p>
-        <h1>Websites and software, built for small business.</h1>
-        <p class="hero-copy">Vividex is an Australian web design and development practice working with small businesses and startups. We build professional websites, web applications, and custom software — delivered properly, with clear communication throughout.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#contact">Send an enquiry</a>
-          <a class="button secondary" href="#work">See our work</a>
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hb-sphere"></div>
+        <div class="hb-ring"></div>
+        <div class="hb-dots"></div>
+      </div>
+      <div class="hero-inner">
+        <p class="hero-label">Web design &amp; software development &nbsp;·&nbsp; Australia</p>
+        <h1 class="hero-h1">
+          <span class="h1-line">Software that</span>
+          <span class="h1-line h1-accent">moves your</span>
+          <span class="h1-line">business forward.</span>
+        </h1>
+        <div class="hero-foot">
+          <p class="hero-desc">Vividex designs and builds websites, web applications, and custom software for Australian small businesses and startups. From first conversation to live product.</p>
+          <div class="hero-actions">
+            <a class="btn-prim" href="#contact">Start a project</a>
+            <a class="btn-ghost" href="#work">See our work</a>
+          </div>
         </div>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <div class="logo-plate">
-          <img src="assets/vividex-logo-cropped.png" alt="">
+      <div class="hero-scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ░░ TICKER ░░ -->
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Australian-based</span><span class="sep">—</span>
+        <span>Small business focused</span><span class="sep">—</span>
+        <span>Full project delivery</span><span class="sep">—</span>
+        <span>No templates</span><span class="sep">—</span>
+        <span>You own the code</span><span class="sep">—</span>
+        <span>Startups welcome</span><span class="sep">—</span>
+        <span>Clear pricing</span><span class="sep">—</span>
+        <span>Australian-based</span><span class="sep">—</span>
+        <span>Small business focused</span><span class="sep">—</span>
+        <span>Full project delivery</span><span class="sep">—</span>
+        <span>No templates</span><span class="sep">—</span>
+        <span>You own the code</span><span class="sep">—</span>
+        <span>Startups welcome</span><span class="sep">—</span>
+        <span>Clear pricing</span><span class="sep">—</span>
+      </div>
+    </div>
+
+    <!-- ░░ SERVICES ░░ -->
+    <section id="services" class="services">
+      <div class="section-head">
+        <span class="section-label">01 — Services</span>
+        <h2 class="section-h2">What we build.</h2>
+      </div>
+      <div class="srv-list" role="list">
+        <div class="srv-row" role="listitem" tabindex="0" data-title="Website Design" data-desc="Professional websites built around your business — service sites, landing pages, booking integrations, and online stores. No marketplace templates. Every site is designed and coded for your specific audience.">
+          <span class="srv-num">01</span>
+          <span class="srv-name">Website Design</span>
+          <span class="srv-meta">Brochure · Landing · eCommerce</span>
+          <span class="srv-arrow">↗</span>
         </div>
-        <div class="browser-frame">
-          <div class="browser-top">
-            <span></span><span></span><span></span>
+        <div class="srv-row" role="listitem" tabindex="0" data-title="Web Applications" data-desc="Custom web apps and SaaS tools built from the ground up. Client portals, internal dashboards, subscription products, multi-tenant platforms — complex builds are where we're most at home.">
+          <span class="srv-num">02</span>
+          <span class="srv-name">Web Applications</span>
+          <span class="srv-meta">SaaS · Portals · Dashboards</span>
+          <span class="srv-arrow">↗</span>
+        </div>
+        <div class="srv-row" role="listitem" tabindex="0" data-title="Custom Software" data-desc="Purpose-built tools for specific business problems. Time tracking systems, booking platforms, workflow automation, reporting tools, desktop applications — if a spreadsheet is slowing you down, we can build something better.">
+          <span class="srv-num">03</span>
+          <span class="srv-name">Custom Software</span>
+          <span class="srv-meta">Automation · Desktop · Integrations</span>
+          <span class="srv-arrow">↗</span>
+        </div>
+      </div>
+      <div class="srv-panel" id="srv-panel" aria-live="polite">
+        <div class="srv-panel-inner">
+          <p class="srv-panel-title" id="srv-panel-title"></p>
+          <p class="srv-panel-desc" id="srv-panel-desc"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ WORK ░░ -->
+    <section id="work" class="work">
+      <div class="section-head">
+        <span class="section-label">02 — Featured Work</span>
+        <h2 class="section-h2">Projects we've delivered.</h2>
+      </div>
+
+      <!-- Project: TimeWiseHub -->
+      <div class="project">
+        <div class="project-intro">
+          <div class="project-tags">
+            <span>SaaS</span><span>Web Application</span><span>Desktop App</span>
           </div>
-          <div class="mock-layout">
-            <div class="mock-sidebar"></div>
-            <div class="mock-main">
-              <div class="mock-line wide"></div>
-              <div class="mock-line"></div>
-              <div class="mock-grid">
-                <span></span><span></span><span></span><span></span>
+          <h3 class="project-name">TimeWiseHub</h3>
+          <p class="project-desc">A cloud-based productivity platform for Australian businesses. Covers time tracking, expense management, project and task management, invoicing, leave requests, and team oversight — all in one product. Ships with a companion Windows desktop app.</p>
+          <div class="project-tech">
+            <span>Next.js</span><span>Supabase</span><span>Stripe</span><span>Tauri</span><span>TypeScript</span>
+          </div>
+          <a class="project-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
+        </div>
+
+        <!-- ── Laptop device mockup ── -->
+        <div class="device-wrap">
+          <div class="device-laptop">
+            <div class="device-screen">
+              <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
+            </div>
+            <div class="device-chin"><div class="device-notch"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="more-projects">
+        <div class="mp-text">
+          <strong>More work in progress.</strong>
+          <span>We're a new practice. Early clients get rates that reflect it — <a href="#contact">send us a brief</a>.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ WHY + PROCESS ░░ -->
+    <section id="process" class="about">
+      <div class="about-grid">
+        <div class="about-why">
+          <div class="section-head">
+            <span class="section-label">03 — Why Vividex</span>
+            <h2 class="section-h2">What working with us actually means.</h2>
+          </div>
+          <div class="why-list">
+            <div class="why-item">
+              <span class="why-num">01</span>
+              <div>
+                <h3>You talk to the builder</h3>
+                <p>No account managers or sales layers. You deal directly with the person doing the work — faster answers, fewer misunderstandings.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <span class="why-num">02</span>
+              <div>
+                <h3>Honest about scope</h3>
+                <p>We tell you what's realistic before work starts, not after. Out-of-scope items surface early, not at invoice stage.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <span class="why-num">03</span>
+              <div>
+                <h3>You own everything</h3>
+                <p>All code, all assets, all accounts. Nothing locked into proprietary systems. What we build belongs to you.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <span class="why-num">04</span>
+              <div>
+                <h3>Accessible pricing</h3>
+                <p>We're a new practice and price accordingly. If agency quotes have felt out of reach, it's worth sending us the brief.</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="app-card">
-          <div class="phone-notch"></div>
-          <div class="phone-chip"></div>
-          <div class="phone-list"></div>
-          <div class="phone-list short"></div>
+
+        <div class="about-process">
+          <div class="section-head">
+            <span class="section-label">04 — Process</span>
+            <h2 class="section-h2">How a project runs.</h2>
+          </div>
+          <p class="process-intro">Every project starts with a direct conversation — not a sales pitch. We define scope, design for approval, build what was agreed, and ship it.</p>
+          <ol class="process-list">
+            <li>
+              <div class="pl-num">01</div>
+              <div class="pl-body">
+                <h3>Discover</h3>
+                <p>We map out exactly what needs to be built, who it's for, and what success looks like — before anything is designed or coded.</p>
+              </div>
+            </li>
+            <li>
+              <div class="pl-num">02</div>
+              <div class="pl-body">
+                <h3>Design</h3>
+                <p>Wireframes and visual designs reviewed and approved before a line of code is written. No surprises at handover.</p>
+              </div>
+            </li>
+            <li>
+              <div class="pl-num">03</div>
+              <div class="pl-body">
+                <h3>Develop</h3>
+                <p>Clean, maintainable code built to the agreed scope, with progress updates at each milestone.</p>
+              </div>
+            </li>
+            <li>
+              <div class="pl-num">04</div>
+              <div class="pl-body">
+                <h3>Launch</h3>
+                <p>Deployment, testing, and handover. We remain available after go-live for questions and follow-up work.</p>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <section class="trust-strip" aria-label="Vividex at a glance">
-      <span>Australian-based</span>
-      <span>Small business focused</span>
-      <span>Full project delivery</span>
-      <span>Startups welcome</span>
-    </section>
-
-    <section id="services" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Services</p>
-        <h2>What we build.</h2>
-        <p class="section-intro">We take projects from brief to launch — design, development, and deployment included. No templates, no hand-offs to offshore teams.</p>
-      </div>
-      <div class="service-grid">
-        <article class="service-card">
-          <span class="service-icon">01</span>
-          <h3>Website Design</h3>
-          <p>Professional websites designed around your business — service sites, landing pages, booking integrations, and online stores. Built to represent your business well and work across every device.</p>
-        </article>
-        <article class="service-card">
-          <span class="service-icon">02</span>
-          <h3>Web Applications</h3>
-          <p>Custom web apps and SaaS tools built from the ground up. If your business needs a client portal, internal dashboard, or a product your customers log into, this is the work we do.</p>
-        </article>
-        <article class="service-card">
-          <span class="service-icon">03</span>
-          <h3>Custom Software</h3>
-          <p>Purpose-built tools for specific business problems. Time tracking systems, booking platforms, workflow automation, reporting tools — if a spreadsheet is slowing you down, we can build something better.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="work" class="section work-section">
-      <div class="section-heading">
-        <p class="eyebrow">Work</p>
-        <h2>Projects we've delivered.</h2>
-      </div>
-      <div class="project-grid">
-        <article class="project-card">
-          <div class="project-meta">
-            <div class="project-tags">
-              <span>Web Application</span>
-              <span>SaaS</span>
-              <span>Desktop App</span>
+    <!-- ░░ CONTACT ░░ -->
+    <section id="contact" class="contact">
+      <div class="contact-inner">
+        <div class="contact-left">
+          <span class="section-label">05 — Contact</span>
+          <h2 class="contact-h2">Tell us what you're building.</h2>
+          <p class="contact-body">Whether you have a detailed brief or just an early idea, send us a message. We'll come back within one business day.</p>
+          <div class="contact-links">
+            <a href="mailto:admin@vividex.au">admin@vividex.au</a>
+            <a href="mailto:info@vividex.au">info@vividex.au</a>
+            <a href="tel:0422965287">0422 965 287</a>
+            <span>ABN 35 253 374 165</span>
+          </div>
+        </div>
+        <div class="contact-right">
+          <form class="cform" method="POST" action="https://api.web3forms.com/submit">
+            <input type="hidden" name="access_key" value="fa93b42e-b87b-4a70-8e40-31db6a451839">
+            <input type="hidden" name="subject" value="New enquiry — Vividex">
+            <input type="hidden" name="redirect" value="https://vividex.au/success.html">
+            <input type="checkbox" name="botcheck" style="display:none">
+            <div class="cform-row">
+              <label>Name<input type="text" name="name" placeholder="Your name" required></label>
+              <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
             </div>
-          </div>
-          <h3>TimeWiseHub</h3>
-          <p>A cloud-based productivity platform for Australian businesses. TimeWiseHub covers time tracking, expense management, project and task management, invoicing, leave requests, and team oversight — all in one place. It runs in the browser and ships with a companion Windows desktop application for teams that prefer a native experience.</p>
-          <div class="project-tech">
-            <span>Next.js</span>
-            <span>Supabase</span>
-            <span>Stripe</span>
-            <span>Tauri</span>
-          </div>
-          <a class="project-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">
-            Visit TimeWiseHub &rarr;
-          </a>
-        </article>
-        <div class="project-placeholder">
-          <p>More projects coming.</p>
-          <p class="project-placeholder-sub">We're a new practice. If you'd like to be one of our first clients, we'd welcome the enquiry — and the rates reflect that.</p>
+            <label>What do you need?
+              <select name="project">
+                <option>Website design</option>
+                <option>Web application</option>
+                <option>Custom software</option>
+                <option>Not sure yet</option>
+              </select>
+            </label>
+            <label>Tell us about it
+              <textarea name="message" rows="5" placeholder="A rough description is enough to start." required></textarea>
+            </label>
+            <button class="btn-prim" type="submit">Send enquiry →</button>
+          </form>
         </div>
       </div>
     </section>
 
-    <section class="section why-section">
-      <div class="section-heading">
-        <p class="eyebrow">Why Vividex</p>
-        <h2>What working with us actually means.</h2>
-      </div>
-      <div class="why-grid">
-        <article>
-          <h3>You talk to the builder</h3>
-          <p>No account managers or sales layers. You deal directly with the person doing the work, which means faster answers and fewer misunderstandings.</p>
-        </article>
-        <article>
-          <h3>Honest about scope</h3>
-          <p>We tell you what's realistic before work starts, not after. If something is out of scope, you'll hear about it early — not at the invoice stage.</p>
-        </article>
-        <article>
-          <h3>You own everything</h3>
-          <p>All code, all assets, all accounts. Nothing is locked into proprietary systems you can't access or transfer. What we build for you belongs to you.</p>
-        </article>
-        <article>
-          <h3>Accessible pricing</h3>
-          <p>We're a new practice and price accordingly. If you've received quotes from larger agencies that felt out of reach, it's worth sending us the brief.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="process" class="section split-section">
-      <div>
-        <p class="eyebrow">Process</p>
-        <h2>How a project runs.</h2>
-        <p class="section-copy">Every project starts with a clear conversation about what you need, not a sales presentation. We define the scope, design it for review, build what was agreed, and get it live.</p>
-      </div>
-      <ol class="process-list">
-        <li>
-          <strong>Discover</strong>
-          <span>We map out what needs to be built, who it's for, and what success looks like — before any design or development starts.</span>
-        </li>
-        <li>
-          <strong>Design</strong>
-          <span>Wireframes and visual designs are reviewed and approved before code is written. No surprises at handover.</span>
-        </li>
-        <li>
-          <strong>Develop</strong>
-          <span>We build the agreed scope with clean, maintainable code and keep you informed at each milestone.</span>
-        </li>
-        <li>
-          <strong>Launch</strong>
-          <span>Deployment, testing, and handover. We stay available after go-live for questions and follow-up work.</span>
-        </li>
-      </ol>
-    </section>
-
-    <section id="contact" class="contact-section">
-      <div>
-        <p class="eyebrow">Contact</p>
-        <h2>Tell us what you're building.</h2>
-        <p>Whether you have a detailed brief or just an early idea, send us a message. We'll come back to you within one business day.</p>
-        <div class="contact-details" aria-label="Vividex contact details">
-          <a href="mailto:admin@vividex.au">admin@vividex.au</a>
-          <a href="mailto:info@vividex.au">info@vividex.au</a>
-          <a href="tel:0422965287">0422 965 287</a>
-          <span>ABN 35 253 374 165</span>
-        </div>
-      </div>
-      <form class="contact-form" method="POST" action="https://api.web3forms.com/submit">
-        <input type="hidden" name="access_key" value="fa93b42e-b87b-4a70-8e40-31db6a451839">
-        <input type="hidden" name="subject" value="New enquiry — Vividex">
-        <input type="hidden" name="redirect" value="https://vividex.au/success.html">
-        <input type="checkbox" name="botcheck" style="display:none">
-
-        <label>
-          Name
-          <input type="text" name="name" placeholder="Your name" required>
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" placeholder="you@example.com" required>
-        </label>
-        <label>
-          What do you need?
-          <select name="project">
-            <option>Website design</option>
-            <option>Web application</option>
-            <option>Custom software</option>
-            <option>Not sure yet</option>
-          </select>
-        </label>
-        <label>
-          Tell us about it
-          <textarea name="message" rows="4" placeholder="A rough description of what you're looking to build is enough to get started." required></textarea>
-        </label>
-        <button class="button primary" type="submit">Send enquiry</button>
-        <p class="form-note" role="status" aria-live="polite"></p>
-      </form>
-      <p class="email-fallback">General enquiries: <a href="mailto:info@vividex.au">info@vividex.au</a> &nbsp;·&nbsp; Project enquiries: <a href="mailto:admin@vividex.au">admin@vividex.au</a></p>
-    </section>
   </main>
 
-  <footer class="site-footer">
-    <span>&copy; 2026 Vividex</span>
-    <span>admin@vividex.au</span>
-    <span>0422 965 287</span>
-    <span>ABN 35 253 374 165</span>
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-brand">VIVIDEX</span>
+      <nav class="footer-nav">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="footer-legal">
+        <span>© 2026 Vividex</span>
+        <span>ABN 35 253 374 165</span>
+        <span>admin@vividex.au</span>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
