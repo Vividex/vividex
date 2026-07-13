@@ -21,6 +21,15 @@ export default async function handler(req, res) {
     return;
   }
 
+  const key = process.env.RESEND_API_KEY;
+  console.log('DEBUG resend key check:', {
+    present: !!key,
+    length: key ? key.length : 0,
+    hasWhitespace: !!key && key !== key.trim(),
+    prefix: key ? key.slice(0, 3) : null,
+    suffix: key ? key.slice(-4) : null,
+  });
+
   try {
     const resendRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
