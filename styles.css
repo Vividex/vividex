@@ -315,6 +315,14 @@ img { display: block; max-width: 100%; }
 .mp-text strong { color: var(--white); font-weight: 600; margin-right: 8px; }
 .mp-text a { color: var(--cyan); font-weight: 500; }
 
+/* ══ GAMES ══ */
+.games {
+  padding: clamp(80px,10vw,128px) clamp(24px,5vw,72px);
+  background: var(--ink);
+  border-top: 1px solid var(--line);
+}
+.game-shots { display: flex; flex-direction: column; gap: 40px; }
+
 /* ══ ABOUT (WHY + PROCESS) ══ */
 .about {
   padding: clamp(80px,10vw,128px) clamp(24px,5vw,72px);
