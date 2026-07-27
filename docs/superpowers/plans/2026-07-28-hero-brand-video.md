@@ -296,17 +296,57 @@ with:
 
 Note the video card is first in the DOM (so it's first on mobile, where the layout stays a plain single-column stack), and CSS `grid-template-areas` reorders it to the right on desktop — see Step 2.
 
-- [ ] **Step 2: Replace the hero CSS**
+- [ ] **Step 2: Remove the sphere CSS and the old `.hero-inner` rule**
 
-In `styles.css`, replace the block from `.hero {` through the end of `@keyframes scroll-pulse { ... }` (currently lines 96-182) with:
+In `styles.css`, the `.hero {` rule itself (position/min-height/flex/padding/overflow) is unchanged — leave it as-is. Delete only the block that runs from `.hero-bg {` through the old `.hero-inner { ... max-width: 900px; }` rule (currently lines 102-142, immediately after `.hero {}` and immediately before `.hero-label {`):
 
 ```css
-.hero {
-  position: relative; min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
-  overflow: hidden;
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
 }
+.hb-sphere {
+  position: absolute; top: -10%; right: -5%;
+  width: clamp(360px, 45vw, 680px); height: clamp(360px, 45vw, 680px);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(0,217,255,0.55) 0%, transparent 48%),
+    radial-gradient(circle at 68% 72%, rgba(0,92,255,0.6) 0%, transparent 52%),
+    radial-gradient(circle at 50% 50%, #05111e 0%, #020508 100%);
+  box-shadow: 0 0 160px rgba(0,217,255,0.18), inset 0 0 100px rgba(0,92,255,0.3);
+  animation: sphere-float 8s ease-in-out infinite;
+}
+@keyframes sphere-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-16px, 20px) scale(1.02); }
+  66% { transform: translate(20px, -14px) scale(0.98); }
+}
+.hb-ring {
+  position: absolute; top: 5%; right: 10%;
+  width: clamp(260px, 32vw, 480px); height: clamp(260px, 32vw, 480px);
+  border-radius: 50%;
+  border: 1px solid rgba(0,217,255,0.12);
+  animation: ring-spin 40s linear infinite;
+}
+.hb-ring::before {
+  content: ''; position: absolute; inset: 20px;
+  border-radius: 50%; border: 1px solid rgba(0,92,255,0.1);
+}
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+.hb-dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(0,217,255,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 60% 30%, black 0%, transparent 70%);
+}
+.hero-inner {
+  position: relative; z-index: 1;
+  max-width: 900px;
+}
+```
+
+Replace that whole deleted block with:
+
+```css
 .hero-inner {
   position: relative; z-index: 1;
   display: grid;
@@ -343,46 +383,15 @@ In `styles.css`, replace the block from `.hero {` through the end of `@keyframes
   }
 }
 .hero-text { grid-area: text; }
-.hero-label {
-  font-size: 0.78rem; font-weight: 400; color: var(--muted);
-  letter-spacing: 0.06em; margin-bottom: 32px;
-  display: flex; align-items: center; gap: 8px;
-}
-.hero-label::before {
-  content: ''; display: block; width: 24px; height: 1px;
-  background: var(--cyan); flex-shrink: 0;
-}
-.hero-h1 {
-  font-family: var(--fd); font-weight: 800;
-  font-size: clamp(3.2rem, 7vw, 8rem);
-  line-height: 0.93; letter-spacing: -0.03em;
-  margin-bottom: 48px;
-  display: flex; flex-direction: column; gap: 0.04em;
-}
-.h1-line { display: block; }
-.h1-accent { color: var(--cyan); }
-.hero-foot {
-  display: grid; grid-template-columns: 1fr auto;
-  gap: 48px; align-items: end;
-}
-.hero-desc {
-  font-size: clamp(0.95rem, 1.4vw, 1.12rem); font-weight: 300;
-  color: #9db0c8; line-height: 1.78; max-width: 500px;
-}
-.hero-actions { display: flex; gap: 12px; flex-shrink: 0; }
-.hero-scroll-hint {
-  position: absolute; right: clamp(24px, 5vw, 72px); bottom: clamp(64px, 8vw, 100px);
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
-  font-size: 0.65rem; font-weight: 500; color: var(--dim);
-  letter-spacing: 0.14em; text-transform: uppercase;
-  writing-mode: vertical-lr; text-orientation: mixed;
-  z-index: 1;
-}
-.scroll-line {
-  width: 1px; height: 48px; background: linear-gradient(to bottom, var(--dim), transparent);
-  animation: scroll-pulse 2s ease-in-out infinite;
-}
-@keyframes scroll-pulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+```
+
+Everything from `.hero-label {` through `@keyframes scroll-pulse { ... }` (currently lines 143-182) is unchanged — do not touch those lines.
+
+- [ ] **Step 3: Add the desktop two-column breakpoint**
+
+In `styles.css`, immediately after `@keyframes scroll-pulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }` and before the `/* ══ TICKER ══ */` comment, insert this new block (pure addition, nothing around it changes):
+
+```css
 
 @media (min-width: 961px) {
   .hero-inner {
@@ -394,24 +403,7 @@ In `styles.css`, replace the block from `.hero {` through the end of `@keyframes
 }
 ```
 
-This removes `.hero-bg`, `.hb-sphere`, `.hb-ring`, `.hb-dots`, `@keyframes sphere-float`, and `@keyframes ring-spin` entirely, and removes the old `.hero-inner { max-width: 900px; }` single-column rule (superseded by the grid).
-
-- [ ] **Step 3: Update the existing 960px responsive block**
-
-In `styles.css`, find the existing responsive rule (originally around line 449):
-
-```css
-@media (max-width: 960px) {
-  .nav-links { display: none; }
-  .hero-foot { grid-template-columns: 1fr; gap: 28px; }
-  .hero-scroll-hint { display: none; }
-  .about-grid, .contact-inner { grid-template-columns: 1fr; }
-  .srv-row { grid-template-columns: 36px 1fr 32px; }
-  .srv-meta { display: none; }
-}
-```
-
-Leave it as-is — it already collapses `.hero-foot` and hides the scroll hint below 960px, which pairs correctly with the new `min-width: 961px` hero-grid rule added in Step 2 (mobile gets the default single-column `grid-template-areas: "video" "text"` from the base `.hero-inner` rule, desktop gets the two-column override). No changes needed here; this step is just confirming the boundary lines up (960 / 961), not editing the file.
+This pairs with the existing `@media (max-width: 960px)` rule further down (which already collapses `.hero-foot` to one column and hides the scroll hint) — mobile gets this file's default single-column `.hero-inner`, desktop gets the two-column override. Nothing in the existing `max-width: 960px` block needs to change.
 
 - [ ] **Step 4: Verify no leftover references**
 
