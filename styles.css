@@ -57,9 +57,11 @@ img { display: block; max-width: 100%; }
   border-color: var(--line);
 }
 .nav-logo {
+  display: flex; align-items: center; gap: 10px;
   font-family: var(--fd); font-size: 0.95rem; font-weight: 800;
   letter-spacing: 0.2em; color: var(--white); flex-shrink: 0;
 }
+.nav-logo-mark { width: 22px; height: auto; display: block; flex-shrink: 0; }
 .nav-links {
   display: flex; gap: 32px;
   font-size: 0.85rem; font-weight: 400; color: var(--muted);
