@@ -101,47 +101,42 @@ img { display: block; max-width: 100%; }
   padding: 0 clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
   overflow: hidden;
 }
-.hero-bg {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-}
-.hb-sphere {
-  position: absolute; top: -10%; right: -5%;
-  width: clamp(360px, 45vw, 680px); height: clamp(360px, 45vw, 680px);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 38% 32%, rgba(0,217,255,0.55) 0%, transparent 48%),
-    radial-gradient(circle at 68% 72%, rgba(0,92,255,0.6) 0%, transparent 52%),
-    radial-gradient(circle at 50% 50%, #05111e 0%, #020508 100%);
-  box-shadow: 0 0 160px rgba(0,217,255,0.18), inset 0 0 100px rgba(0,92,255,0.3);
-  animation: sphere-float 8s ease-in-out infinite;
-}
-@keyframes sphere-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-16px, 20px) scale(1.02); }
-  66% { transform: translate(20px, -14px) scale(0.98); }
-}
-.hb-ring {
-  position: absolute; top: 5%; right: 10%;
-  width: clamp(260px, 32vw, 480px); height: clamp(260px, 32vw, 480px);
-  border-radius: 50%;
-  border: 1px solid rgba(0,217,255,0.12);
-  animation: ring-spin 40s linear infinite;
-}
-.hb-ring::before {
-  content: ''; position: absolute; inset: 20px;
-  border-radius: 50%; border: 1px solid rgba(0,92,255,0.1);
-}
-@keyframes ring-spin { to { transform: rotate(360deg); } }
-.hb-dots {
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(0,217,255,0.06) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 80% at 60% 30%, black 0%, transparent 70%);
-}
 .hero-inner {
   position: relative; z-index: 1;
-  max-width: 900px;
+  display: grid;
+  grid-template-areas: "video" "text";
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
 }
+.hero-video-card {
+  grid-area: video;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #030508;
+  box-shadow:
+    0 0 0 1px rgba(0,217,255,0.06),
+    0 20px 60px rgba(0,20,40,0.5),
+    0 0 120px rgba(0,92,255,0.12);
+}
+.hero-video-card video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-card video { display: none; }
+  .hero-video-card {
+    background-image: url('assets/hero-brand-poster.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+.hero-text { grid-area: text; }
 .hero-label {
   font-size: 0.78rem; font-weight: 400; color: var(--muted);
   letter-spacing: 0.06em; margin-bottom: 32px;
@@ -182,6 +177,15 @@ img { display: block; max-width: 100%; }
   animation: scroll-pulse 2s ease-in-out infinite;
 }
 @keyframes scroll-pulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+
+@media (min-width: 961px) {
+  .hero-inner {
+    grid-template-areas: "text video";
+    grid-template-columns: 1fr minmax(320px, 560px);
+    gap: 56px;
+  }
+  .hero-video-card { justify-self: end; }
+}
 
 /* ══ TICKER ══ */
 .ticker-wrap {
