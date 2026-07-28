@@ -98,7 +98,7 @@ img { display: block; max-width: 100%; }
 .hero {
   position: relative; min-height: 100vh;
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
+  padding: 120px clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
   overflow: hidden;
 }
 .hero-inner {
@@ -181,7 +181,7 @@ img { display: block; max-width: 100%; }
 @media (min-width: 961px) {
   .hero-inner {
     grid-template-areas: "text video";
-    grid-template-columns: 1fr minmax(320px, 560px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 28vw);
     gap: 56px;
   }
   .hero-video-card { justify-self: end; }
