@@ -422,6 +422,10 @@ select option { background: #070c14; color: var(--white); }
   .srv-meta { display: none; }
 }
 @media (max-width: 640px) {
+  .hero {
+    min-height: 85vh; justify-content: center;
+    padding-top: 88px;
+  }
   .hero-h1 { font-size: clamp(2.8rem,12vw,4rem); }
   .cform-row { grid-template-columns: 1fr; }
   .footer-nav, .footer-legal { display: none; }
