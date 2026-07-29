@@ -52,9 +52,12 @@
         </h1>
         <div class="hero-foot">
           <p class="hero-desc">Vividex designs and builds websites, web applications, and custom software for Australian small businesses and startups. From first conversation to live product.</p>
-          <div class="hero-actions">
-            <a class="btn-prim" href="#contact">Start a project</a>
-            <a class="btn-ghost" href="#work">See our work</a>
+          <div class="hero-actions-wrap">
+            <div class="hero-actions">
+              <a class="btn-prim" href="#contact">Start a project</a>
+              <a class="btn-ghost" href="#work">See our work</a>
+            </div>
+            <p class="hero-trust">Free, no-obligation 1-hour consultation to start</p>
           </div>
         </div>
       </div>
@@ -125,29 +128,44 @@
         <h2 class="section-h2">Projects we've delivered.</h2>
       </div>
 
-      <!-- Project: TimeWiseHub -->
-      <div class="project">
-        <div class="project-intro">
-          <div class="project-tags">
+      <div class="catalogue" id="work-catalogue" tabindex="0" aria-label="Shipped projects — scroll horizontally">
+
+        <!-- Project: TimeWiseHub -->
+        <article class="cat-card">
+          <div class="cat-shot">
+            <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
+          </div>
+          <div class="cat-tags">
             <span>SaaS</span><span>Web Application</span><span>Desktop App</span>
           </div>
-          <h3 class="project-name">TimeWiseHub</h3>
-          <p class="project-desc">A cloud-based productivity platform for Australian businesses. Covers time tracking, expense management, project and task management, invoicing, leave requests, and team oversight — all in one product. Ships with a companion Windows desktop app.</p>
-          <div class="project-tech">
+          <h3 class="cat-name">TimeWiseHub</h3>
+          <p class="cat-desc">A cloud-based productivity platform for Australian businesses. Time tracking, expense management, invoicing, leave requests, and team oversight — with a companion Windows desktop app.</p>
+          <div class="cat-tech">
             <span>Next.js</span><span>Supabase</span><span>Stripe</span><span>Tauri</span><span>TypeScript</span>
           </div>
-          <a class="project-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
-        </div>
+          <a class="cat-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
+        </article>
 
-        <!-- ── Laptop device mockup ── -->
-        <div class="device-wrap">
-          <div class="device-laptop">
-            <div class="device-screen">
-              <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
-            </div>
-            <div class="device-chin"><div class="device-notch"></div></div>
+        <!-- Project: JetFit -->
+        <article class="cat-card">
+          <div class="cat-shot">
+            <img src="assets/jetfit-dashboard.png" alt="JetFit coach dashboard showing client overview, sessions this week, and quick actions" loading="lazy" width="1920" height="1020">
           </div>
-        </div>
+          <div class="cat-tags">
+            <span>SaaS</span><span>Web Application</span><span>Coaching Platform</span>
+          </div>
+          <h3 class="cat-name">JetFit</h3>
+          <p class="cat-desc">A client management platform for online fitness coaches. Onboarding, workout programming, nutrition tracking with barcode scanning, weekly check-ins, messaging, and direct invoicing.</p>
+          <div class="cat-tech">
+            <span>Next.js</span><span>TypeScript</span>
+          </div>
+          <a class="cat-link" href="https://jetfit.com.au" target="_blank" rel="noopener">Visit JetFit ↗</a>
+        </article>
+
+      </div>
+      <div class="catalogue-nav">
+        <button class="cat-arrow cat-prev" type="button" aria-label="Scroll to previous project" data-target="work-catalogue">←</button>
+        <button class="cat-arrow cat-next" type="button" aria-label="Scroll to next project" data-target="work-catalogue">→</button>
       </div>
 
       <div class="more-projects">
@@ -165,47 +183,12 @@
         <h2 class="section-h2">Games we've shipped.</h2>
       </div>
 
-      <!-- Project: Undead Nightfall -->
-      <div class="project">
-        <div class="project-intro">
-          <div class="project-tags">
-            <span>Game</span><span>PWA</span><span>Action Survival</span>
-          </div>
-          <h3 class="project-name">Undead Nightfall</h3>
-          <p class="project-desc">A gothic action-survival game where you hunt waves of the undead using melee combat and charged spells like fireball and lightning, leveling up and racing for the top of the global leaderboard. Installable and mobile-first, playable straight from the browser on phone or desktop.</p>
-          <div class="project-tech">
-            <span>JavaScript</span><span>HTML5 Canvas</span><span>Supabase</span><span>PWA</span>
-          </div>
-          <a class="project-link" href="https://undead-nightfall.vercel.app" target="_blank" rel="noopener">Play Undead Nightfall ↗</a>
-        </div>
-
-        <div class="game-shots">
-          <div class="device-wrap">
-            <div class="device-laptop">
-              <div class="device-screen">
-                <img src="assets/undead-nightfall-title.png" alt="Undead Nightfall title screen with the game logo over a moonlit graveyard, and the Begin Hunt menu" loading="lazy" width="1360" height="770">
-              </div>
-              <div class="device-chin"><div class="device-notch"></div></div>
-            </div>
-          </div>
-          <div class="device-wrap">
-            <div class="device-laptop">
-              <div class="device-screen">
-                <img src="assets/undead-nightfall-gameplay.png" alt="Undead Nightfall gameplay showing the player fighting a swarm of skeletal undead with health, mana, kill count and spell HUD visible" loading="lazy" width="1280" height="900">
-              </div>
-              <div class="device-chin"><div class="device-notch"></div></div>
-            </div>
-          </div>
-          <div class="device-wrap">
-            <div class="device-laptop">
-              <div class="device-screen">
-                <img src="assets/undead-nightfall-boss.png" alt="Undead Nightfall boss encounter against the Bone Colossus, surrounded by a swarm of enemies with active buff timers and HUD showing 166 kills" loading="lazy" width="1880" height="837">
-              </div>
-              <div class="device-chin"><div class="device-notch"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="game-list">
+        <li class="game-item">
+          <a class="game-title" href="/games/undead-nightfall">Undead Nightfall</a>
+          <a class="game-play" href="https://undead-nightfall.vercel.app" target="_blank" rel="noopener">Play ↗</a>
+        </li>
+      </ul>
     </section>
 
     <!-- ░░ WHY + PROCESS ░░ -->
@@ -245,6 +228,13 @@
                 <p>We're a new practice and price accordingly. If agency quotes have felt out of reach, it's worth sending us the brief.</p>
               </div>
             </div>
+            <div class="why-item">
+              <span class="why-num">05</span>
+              <div>
+                <h3>We don't disappear after launch</h3>
+                <p>Post-launch support is included, not an upsell. Bug fixes, small tweaks, and questions answered as they come up.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -280,7 +270,7 @@
               <div class="pl-num">04</div>
               <div class="pl-body">
                 <h3>Launch</h3>
-                <p>Deployment, testing, and handover. We remain available after go-live for questions and follow-up work.</p>
+                <p>Deployment, testing, and handover — plus ongoing support after launch. We stay available for questions, fixes, and follow-up work.</p>
               </div>
             </li>
           </ol>

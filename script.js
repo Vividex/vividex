@@ -38,6 +38,33 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+/* ── Horizontal catalogue scroll arrows ── */
+document.querySelectorAll('.catalogue-nav').forEach(nav => {
+  const prevBtn = nav.querySelector('.cat-prev');
+  const nextBtn = nav.querySelector('.cat-next');
+  const track = document.getElementById(prevBtn.dataset.target);
+  if (!track) return;
+
+  function cardStep() {
+    const card = track.querySelector('.cat-card');
+    if (!card) return track.clientWidth;
+    const style = getComputedStyle(track);
+    return card.getBoundingClientRect().width + parseFloat(style.gap || 24);
+  }
+
+  function updateButtons() {
+    const max = track.scrollWidth - track.clientWidth;
+    prevBtn.disabled = track.scrollLeft <= 4;
+    nextBtn.disabled = track.scrollLeft >= max - 4;
+  }
+
+  prevBtn.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
+  nextBtn.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: 'smooth' }));
+  track.addEventListener('scroll', updateButtons, { passive: true });
+  window.addEventListener('resize', updateButtons);
+  updateButtons();
+});
+
 /* ── Hero signal background ── */
 (function () {
   const canvas = document.getElementById('hero-signal');
