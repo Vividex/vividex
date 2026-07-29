@@ -281,20 +281,30 @@ img { display: block; max-width: 100%; }
 }
 .device-notch { width: 80px; height: 12px; background: #1a2535; border-radius: 0 0 7px 7px; }
 
-/* ── Horizontal catalogue ── */
+/* ── Drum carousel ── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
 .catalogue {
-  display: flex; gap: 24px; overflow-x: auto;
-  scroll-snap-type: x mandatory; scroll-padding-left: 0;
-  padding-bottom: 10px; margin-bottom: 24px;
-  scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  position: relative; perspective: 1600px;
+  margin-bottom: 24px; padding: 40px 0;
 }
 .catalogue:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+.catalogue-stage {
+  position: relative; width: 100%;
+  transform-style: preserve-3d;
+}
 .cat-card {
-  scroll-snap-align: start; flex: 0 0 clamp(300px, 38vw, 460px);
+  position: absolute; top: 0; left: 50%; width: min(460px, 88vw);
   display: flex; flex-direction: column;
   background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
   padding: 20px;
+  transition: transform 0.7s var(--ease), opacity 0.7s var(--ease), filter 0.7s var(--ease);
+  will-change: transform, opacity, filter;
 }
+.cat-card[data-active="true"] { pointer-events: auto; }
+.cat-card:not([data-active="true"]) { pointer-events: none; }
 .cat-shot {
   aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden;
   background: #03070f; margin-bottom: 18px;
@@ -319,7 +329,7 @@ img { display: block; max-width: 100%; }
 .cat-link { color: var(--cyan); font-size: 0.85rem; font-weight: 500; transition: opacity 0.15s; }
 .cat-link:hover { opacity: 0.7; }
 
-.catalogue-nav { display: flex; gap: 10px; }
+.catalogue-nav { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .cat-arrow {
   width: 42px; height: 42px; border-radius: 50%;
   border: 1px solid var(--line); background: transparent; color: var(--white);
@@ -327,6 +337,10 @@ img { display: block; max-width: 100%; }
 }
 .cat-arrow:hover { border-color: var(--cyan); color: var(--cyan); }
 .cat-arrow:disabled { opacity: 0.3; cursor: default; border-color: var(--line); color: var(--white); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-card { transition: opacity 0.25s linear; }
+}
 
 .more-projects {
   padding: 28px 32px; border: 1px dashed rgba(92,123,154,0.22); border-radius: 10px;

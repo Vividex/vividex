@@ -128,44 +128,47 @@
         <h2 class="section-h2">Projects we've delivered.</h2>
       </div>
 
-      <div class="catalogue" id="work-catalogue" tabindex="0" aria-label="Shipped projects — scroll horizontally">
+      <div class="catalogue" id="work-catalogue" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Shipped projects">
+        <div class="catalogue-stage">
 
-        <!-- Project: TimeWiseHub -->
-        <article class="cat-card">
-          <div class="cat-shot">
-            <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
-          </div>
-          <div class="cat-tags">
-            <span>SaaS</span><span>Web Application</span><span>Desktop App</span>
-          </div>
-          <h3 class="cat-name">TimeWiseHub</h3>
-          <p class="cat-desc">A cloud-based productivity platform for Australian businesses. Time tracking, expense management, invoicing, leave requests, and team oversight — with a companion Windows desktop app.</p>
-          <div class="cat-tech">
-            <span>Next.js</span><span>Supabase</span><span>Stripe</span><span>Tauri</span><span>TypeScript</span>
-          </div>
-          <a class="cat-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
-        </article>
+          <!-- Project: TimeWiseHub -->
+          <article class="cat-card">
+            <div class="cat-shot">
+              <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
+            </div>
+            <div class="cat-tags">
+              <span>SaaS</span><span>Web Application</span><span>Desktop App</span>
+            </div>
+            <h3 class="cat-name">TimeWiseHub</h3>
+            <p class="cat-desc">A cloud-based productivity platform for Australian businesses. Time tracking, expense management, invoicing, leave requests, and team oversight — with a companion Windows desktop app.</p>
+            <div class="cat-tech">
+              <span>Next.js</span><span>Supabase</span><span>Stripe</span><span>Tauri</span><span>TypeScript</span>
+            </div>
+            <a class="cat-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
+          </article>
 
-        <!-- Project: JetFit -->
-        <article class="cat-card">
-          <div class="cat-shot">
-            <img src="assets/jetfit-dashboard.png" alt="JetFit coach dashboard showing client overview, sessions this week, and quick actions" loading="lazy" width="1920" height="1020">
-          </div>
-          <div class="cat-tags">
-            <span>SaaS</span><span>Web Application</span><span>Coaching Platform</span>
-          </div>
-          <h3 class="cat-name">JetFit</h3>
-          <p class="cat-desc">A client management platform for online fitness coaches. Onboarding, workout programming, nutrition tracking with barcode scanning, weekly check-ins, messaging, and direct invoicing.</p>
-          <div class="cat-tech">
-            <span>Next.js</span><span>TypeScript</span>
-          </div>
-          <a class="cat-link" href="https://jetfit.com.au" target="_blank" rel="noopener">Visit JetFit ↗</a>
-        </article>
+          <!-- Project: JetFit -->
+          <article class="cat-card">
+            <div class="cat-shot">
+              <img src="assets/jetfit-dashboard.png" alt="JetFit coach dashboard showing client overview, sessions this week, and quick actions" loading="lazy" width="1920" height="1020">
+            </div>
+            <div class="cat-tags">
+              <span>SaaS</span><span>Web Application</span><span>Coaching Platform</span>
+            </div>
+            <h3 class="cat-name">JetFit</h3>
+            <p class="cat-desc">A client management platform for online fitness coaches. Onboarding, workout programming, nutrition tracking with barcode scanning, weekly check-ins, messaging, and direct invoicing.</p>
+            <div class="cat-tech">
+              <span>Next.js</span><span>TypeScript</span>
+            </div>
+            <a class="cat-link" href="https://jetfit.com.au" target="_blank" rel="noopener">Visit JetFit ↗</a>
+          </article>
 
+        </div>
       </div>
       <div class="catalogue-nav">
-        <button class="cat-arrow cat-prev" type="button" aria-label="Scroll to previous project" data-target="work-catalogue">←</button>
-        <button class="cat-arrow cat-next" type="button" aria-label="Scroll to next project" data-target="work-catalogue">→</button>
+        <button class="cat-arrow cat-prev" type="button" aria-label="Previous project" data-target="work-catalogue">←</button>
+        <p class="cat-status sr-only" aria-live="polite" id="work-catalogue-status"></p>
+        <button class="cat-arrow cat-next" type="button" aria-label="Next project" data-target="work-catalogue">→</button>
       </div>
 
       <div class="more-projects">

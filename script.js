@@ -38,31 +38,93 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── Horizontal catalogue scroll arrows ── */
+/* ── Work drum carousel ── */
 document.querySelectorAll('.catalogue-nav').forEach(nav => {
   const prevBtn = nav.querySelector('.cat-prev');
   const nextBtn = nav.querySelector('.cat-next');
+  const status = nav.querySelector('.cat-status');
   const track = document.getElementById(prevBtn.dataset.target);
   if (!track) return;
+  const stage = track.querySelector('.catalogue-stage');
+  const cards = Array.from(stage.querySelectorAll('.cat-card'));
+  if (!cards.length) return;
 
-  function cardStep() {
-    const card = track.querySelector('.cat-card');
-    if (!card) return track.clientWidth;
-    const style = getComputedStyle(track);
-    return card.getBoundingClientRect().width + parseFloat(style.gap || 24);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const total = cards.length;
+  let current = 0;
+
+  function sizeStage() {
+    stage.style.height = Math.max(...cards.map(c => c.offsetHeight)) + 'px';
   }
 
-  function updateButtons() {
-    const max = track.scrollWidth - track.clientWidth;
-    prevBtn.disabled = track.scrollLeft <= 4;
-    nextBtn.disabled = track.scrollLeft >= max - 4;
+  function layout() {
+    const radius = cards[0].offsetWidth * 1.05;
+    cards.forEach((card, i) => {
+      let offset = i - current;
+      if (offset > total / 2) offset -= total;
+      if (offset < -total / 2) offset += total;
+      const abs = Math.abs(offset);
+      const sign = Math.sign(offset);
+      const active = abs === 0;
+
+      if (reduceMotion) {
+        card.style.transform = `translateX(-50%) scale(${active ? 1 : 0.92})`;
+        card.style.opacity = active ? '1' : '0';
+        card.style.filter = 'none';
+      } else {
+        let angle, scale, opacity, blur;
+        if (abs === 0)      { angle = 0;        scale = 1;    opacity = 1;    blur = 0; }
+        else if (abs === 1) { angle = 42 * sign; scale = 0.86; opacity = 0.55; blur = 1; }
+        else if (abs === 2) { angle = 78 * sign; scale = 0.74; opacity = 0;    blur = 2; }
+        else                { angle = 100 * sign; scale = 0.68; opacity = 0;   blur = 2; }
+        const rad = angle * Math.PI / 180;
+        const x = Math.sin(rad) * radius;
+        const z = -radius * (1 - Math.cos(rad));
+        card.style.transform = `translateX(-50%) translate3d(${x}px, 0, ${z}px) rotateY(${angle}deg) scale(${scale})`;
+        card.style.opacity = String(opacity);
+        card.style.filter = blur ? `blur(${blur}px)` : 'none';
+      }
+      card.style.zIndex = String(active ? 30 : 20 - abs);
+      card.dataset.active = String(active);
+      card.setAttribute('aria-hidden', String(!active));
+      const link = card.querySelector('a');
+      if (link) link.tabIndex = active ? 0 : -1;
+    });
   }
 
-  prevBtn.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
-  nextBtn.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: 'smooth' }));
-  track.addEventListener('scroll', updateButtons, { passive: true });
-  window.addEventListener('resize', updateButtons);
-  updateButtons();
+  function updateStatus() {
+    if (!status) return;
+    const name = cards[current].querySelector('.cat-name');
+    status.textContent = `Project ${current + 1} of ${total}: ${name ? name.textContent : ''}`;
+  }
+
+  function go(delta) {
+    current = (current + delta + total) % total;
+    layout();
+    updateStatus();
+  }
+
+  prevBtn.disabled = total <= 1;
+  nextBtn.disabled = total <= 1;
+  prevBtn.addEventListener('click', () => go(-1));
+  nextBtn.addEventListener('click', () => go(1));
+  track.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+  });
+
+  sizeStage();
+  cards.forEach(c => { c.style.transition = 'none'; });
+  layout();
+  updateStatus();
+  void stage.offsetWidth;
+  requestAnimationFrame(() => cards.forEach(c => { c.style.transition = ''; }));
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { sizeStage(); layout(); }, 120);
+  });
 });
 
 /* ── Hero signal background ── */
