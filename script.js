@@ -163,11 +163,16 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
     if (strong && !motion.matches) {
       const lengths = points.slice(1).map(([px, py], i) => Math.hypot(px - points[i][0], py - points[i][1]));
       const total = lengths.reduce((sum, length) => sum + length, 0);
-      const progress = ((time / 6500 + phase + surfaceIndex * 0.17) % 1.3) / 1.3;
-      // Fade in at entry and dissolve into the terminal instead of popping off.
-      const fade = Math.min(1, progress / 0.1, (1 - progress) / 0.18);
+      const travelMs = 6500, flashMs = 180, fadeMs = 650, restMs = 500;
+      const cycleMs = travelMs + flashMs + fadeMs + restMs;
+      const elapsed = (time + (phase + surfaceIndex * 0.17) * cycleMs) % cycleMs;
+      const progress = Math.min(1, elapsed / travelMs);
+      const arrivalMs = elapsed - travelMs;
+      // Maintain full travelling luminosity; flash and fade only at the terminal.
+      const fade = arrivalMs < flashMs ? 1 : Math.max(0, 1 - (arrivalMs - flashMs) / fadeMs);
+      const terminalBrightness = arrivalMs >= 0 ? 1.1 : 1;
       let distance = progress * total;
-      let x = points[0][0], y = points[0][1];
+      let [x, y] = points[points.length - 1];
       for (let i = 0; i < lengths.length; i++) {
         if (distance <= lengths[i]) {
           const fraction = lengths[i] ? distance / lengths[i] : 0;
@@ -182,10 +187,13 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
       glow.addColorStop(0.15, `rgba(0,220,255,${fade * 0.95})`);
       glow.addColorStop(0.5, `rgba(0,110,255,${fade * 0.45})`);
       glow.addColorStop(1, 'rgba(0,92,255,0)');
+      ctx.save();
+      ctx.filter = `brightness(${terminalBrightness})`;
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(x, y, 22, 0, Math.PI * 2);
       ctx.fill();
+      ctx.restore();
     }
   }
 
@@ -201,8 +209,10 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
       [{side: 'right', y: 0.02, count: 5, path: [[0,-30],[0.5,0.5],[0.88,0.5],[1,0.62]]},
        {side: 'left', y: 0.02, count: 3, path: [[0,-30],[0.2,0.2],[0.58,0.2]]}],
       [{side: 'right', y: 0.26, count: 4, path: [[0,0],[0.24,0.24],[0.24,0.55],[0.45,0.76],[0.72,0.76]]}],
-      [{side: 'left', y: 0.42, count: 3, path: [[0,0],[0.18,-0.18],[0.18,-0.42],[0.4,-0.64],[0.7,-0.64]]},
-       {side: 'right', y: 0.7, count: 2, path: [[0,0],[0.35,-0.35],[0.8,-0.35]]}],
+      [{side: 'left', y: 0.42, count: 5, path: [[0,0],[0.18,-0.18],[0.18,-0.42],[0.4,-0.64],[0.7,-0.64]]},
+       {side: 'right', y: 0.7, count: 4, path: [[0,0],[0.35,-0.35],[0.8,-0.35]]},
+       {side: 'right', y: 0.08, count: 3, path: [[0,0],[0.22,0.22],[0.58,0.22],[0.72,0.36]]},
+       {side: 'left', y: 0.85, count: 3, path: [[0,0],[0.22,-0.22],[0.6,-0.22]]}],
       [{side: 'right', y: 0.1, count: 5, path: [[0,0],[0.25,0.25],[0.55,0.25],[0.7,0.4],[0.7,0.62]]}],
       [{side: 'left', y: 0.74, count: 4, path: [[0,0],[0.3,-0.3],[0.68,-0.3],[0.82,-0.44]]},
        {side: 'right', y: 0.13, count: 2, path: [[0,0],[0.2,0.2],[0.2,0.5]]}],
