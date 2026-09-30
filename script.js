@@ -127,101 +127,91 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
   });
 });
 
-/* ── Hero signal background ── */
+/* ── Hero circuit background ── */
 (function () {
   const canvas = document.getElementById('hero-signal');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
   const hero = canvas.parentElement;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let width = 0, height = 0, frame = null, visible = true;
 
-  let dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = hero.clientWidth * dpr;
-    canvas.height = hero.clientHeight * dpr;
-    canvas.style.width = hero.clientWidth + 'px';
-    canvas.style.height = hero.clientHeight + 'px';
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const FREQ = 1.6, AMP_FRAC = 0.1, BASE_FRAC = 0.72;
-
-  function lineY(nx, h, t) {
-    const baseY = h * BASE_FRAC;
-    const amp = h * AMP_FRAC;
-    return baseY - amp * Math.sin(nx * Math.PI * FREQ + t * 0.6) * (0.4 + 0.6 * nx);
-  }
-
-  function drawDots(w, h) {
-    ctx.save();
-    ctx.globalAlpha = 0.12;
-    ctx.fillStyle = '#00d9ff';
-    const spacing = 42 * dpr;
-    for (let y = 0; y < h; y += spacing) {
-      for (let x = 0; x < w; x += spacing) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-    ctx.restore();
-  }
-
-  function drawLine(w, h, t) {
-    ctx.save();
+  // Angular traces frame the content rather than passing through the headline.
+  function trace(points, brightness, strong) {
     ctx.beginPath();
-    for (let x = 0; x <= w; x += 4) {
-      const nx = x / w;
-      const y = lineY(nx, h, t);
-      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    const grad = ctx.createLinearGradient(0, 0, w, 0);
-    grad.addColorStop(0, 'rgba(0,92,255,0.15)');
-    grad.addColorStop(0.6, 'rgba(0,150,255,0.55)');
-    grad.addColorStop(1, 'rgba(0,217,255,0.9)');
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 2 * dpr;
-    ctx.shadowColor = 'rgba(0,217,255,0.6)';
-    ctx.shadowBlur = 14;
+    points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+    ctx.strokeStyle = strong ? `rgba(0,190,255,${brightness})` : `rgba(0,92,255,${brightness})`;
+    ctx.lineWidth = strong ? 1.8 : 1;
+    ctx.shadowColor = '#007bff';
+    ctx.shadowBlur = strong ? 12 : 0;
     ctx.stroke();
-    ctx.restore();
-  }
-
-  function pulsePosition(t) {
-    return 1.15 - (t * 0.175) % 1.3;
-  }
-
-  function drawPulse(w, h, t) {
-    const nx = pulsePosition(t);
-    if (nx < 0 || nx > 1) return;
-    const y = lineY(nx, h, t);
-    const x = nx * w;
-    const grad = ctx.createRadialGradient(x, y, 0, x, y, 26 * dpr);
-    grad.addColorStop(0, 'rgba(255,255,255,0.95)');
-    grad.addColorStop(0.3, 'rgba(0,217,255,0.7)');
-    grad.addColorStop(1, 'rgba(0,217,255,0)');
-    ctx.save();
-    ctx.fillStyle = grad;
+    const [x, y] = points[points.length - 1];
     ctx.beginPath();
-    ctx.arc(x, y, 26 * dpr, 0, Math.PI * 2);
+    ctx.arc(x, y, strong ? 3 : 2, 0, Math.PI * 2);
+    ctx.fillStyle = ctx.strokeStyle;
     ctx.fill();
-    ctx.restore();
+    ctx.shadowBlur = 0;
   }
 
-  let t = 0;
-  function draw() {
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    drawDots(w, h);
-    drawLine(w, h, t);
-    drawPulse(w, h, t);
-    if (!reduceMotion) {
-      t += 0.006;
-      requestAnimationFrame(draw);
+  function render(now = 0) {
+    frame = null;
+    ctx.clearRect(0, 0, width, height);
+    const mobile = width < 640;
+    const pulse = motion.matches ? 0.72 : 0.72 + 0.1 * Math.sin(now / 1800);
+    const unit = Math.min(width * 0.4, 480);
+    for (let i = 0; i < 6; i++) {
+      const offset = i * (mobile ? 14 : 24);
+      const strong = i === 1 || i === 4;
+      const alpha = (strong ? 0.58 : 0.25) * pulse;
+      trace([
+        [width + 30, -30 + offset],
+        [width - unit * 0.55, unit * 0.55 + offset],
+        [width - unit * 0.94, unit * 0.55 + offset],
+        [width - unit * 1.03, unit * 0.64 + offset]
+      ], alpha, strong);
+      trace([
+        [width + 30, height * 0.55 + offset],
+        [width - unit * 0.6, height * 0.55 + unit * 0.6 + offset],
+        [width - unit * 1.02, height * 0.55 + unit * 0.6 + offset],
+        [width - unit * 1.16, height * 0.55 + unit * 0.74 + offset]
+      ], alpha * 0.8, strong);
+      trace([
+        [-30, -30 + offset],
+        [unit * 0.15, unit * 0.15 + offset],
+        [unit * 0.48, unit * 0.15 + offset],
+        [unit * 0.6, unit * 0.03 + offset]
+      ], alpha * 0.5, strong);
     }
+    // Restrained rows of circuit contacts near the upper-right edge.
+    ctx.fillStyle = `rgba(0,126,255,${0.35 * pulse})`;
+    for (let i = 0; i < 5; i++) {
+      ctx.beginPath();
+      ctx.arc(width - unit * 0.75 + i * 18, unit * 0.42, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(render);
   }
-  draw();
+
+  function restart() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    render(performance.now());
+  }
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = hero.clientWidth;
+    height = hero.clientHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    restart();
+  }
+  new ResizeObserver(resize).observe(hero);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    restart();
+  }).observe(hero);
+  motion.addEventListener('change', restart);
+  document.addEventListener('visibilitychange', restart);
+  resize();
 })();
