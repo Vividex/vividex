@@ -170,7 +170,7 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
       const arrivalMs = elapsed - travelMs;
       // Maintain full travelling luminosity; flash and fade only at the terminal.
       const fade = arrivalMs < flashMs ? 1 : Math.max(0, 1 - (arrivalMs - flashMs) / fadeMs);
-      const terminalBrightness = arrivalMs >= 0 ? 1.1 : 1;
+      const terminalBrightness = arrivalMs >= 0 ? 1.25 : 1;
       let distance = progress * total;
       let [x, y] = points[points.length - 1];
       for (let i = 0; i < lengths.length; i++) {
