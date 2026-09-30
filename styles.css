@@ -61,7 +61,11 @@ img { display: block; max-width: 100%; }
   font-family: var(--fd); font-size: 0.95rem; font-weight: 800;
   letter-spacing: 0.2em; color: var(--white); flex-shrink: 0;
 }
-.nav-logo-mark { width: 22px; height: auto; display: block; flex-shrink: 0; }
+.brand-lockup { height: auto; object-fit: contain; mix-blend-mode: screen; }
+.nav-brand { width: 200px; }
+.hero-brand { width: clamp(260px, 34vw, 420px); margin-bottom: 28px; }
+.footer-brand-image { width: 220px; }
+.nav-logo:focus-visible, .footer-brand:focus-visible { outline: 2px solid var(--cyan); outline-offset: 6px; }
 .nav-links {
   display: flex; gap: 32px;
   font-size: 0.85rem; font-weight: 400; color: var(--muted);
@@ -98,7 +102,7 @@ img { display: block; max-width: 100%; }
 .hero {
   position: relative; min-height: 100vh;
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 0 clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
+  padding: 140px clamp(24px, 5vw, 72px) clamp(64px, 8vw, 100px);
   overflow: hidden;
 }
 .hero-signal {
@@ -519,9 +523,12 @@ select option { background: #070c14; color: var(--white); }
   .srv-meta { display: none; }
 }
 @media (max-width: 640px) {
+  .nav-brand { width: clamp(140px, 40vw, 180px); }
+  .nav-cta { padding: 9px 12px; }
+  .hero-brand { width: min(100%, 340px); }
   .hero {
     min-height: 85vh; justify-content: center;
-    padding-top: 88px;
+    padding-top: 120px;
   }
   .hero-h1 { font-size: clamp(2.8rem,12vw,4rem); }
   .cform-row { grid-template-columns: 1fr; }
