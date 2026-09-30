@@ -532,3 +532,20 @@ select option { background: #070c14; color: var(--white); }
   .cform-row { grid-template-columns: 1fr; }
   .footer-nav, .footer-legal { display: none; }
 }
+
+/* Brand atmosphere across every main section. Content stays above the traces. */
+.circuit-surface {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(ellipse at 96% 24%, rgba(0, 92, 255, 0.17), transparent 56%),
+    radial-gradient(ellipse at 4% 85%, rgba(0, 145, 255, 0.09), transparent 48%);
+}
+.circuit-surface > :not(canvas) { position: relative; z-index: 1; }
+.circuit-surface > .hero-scroll-hint { position: absolute; }
+.circuit-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  /* Keep the strongest glow near the edges and soften it behind copy. */
+  mask-image: linear-gradient(90deg, #000, rgba(0,0,0,0.35) 28%, rgba(0,0,0,0.55) 65%, #000);
+}

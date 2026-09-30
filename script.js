@@ -127,24 +127,32 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
   });
 });
 
-/* ── Hero circuit background ── */
+/* ── Site circuit backgrounds ── */
 (function () {
-  const canvas = document.getElementById('hero-signal');
-  if (!canvas) return;
+  document.querySelectorAll('main > section, body > .footer').forEach((surface, surfaceIndex) => {
+  surface.classList.add('circuit-surface');
+  let canvas = surface.querySelector('#hero-signal');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    surface.prepend(canvas);
+  }
+  canvas.classList.add('circuit-canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   const hero = canvas.parentElement;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let width = 0, height = 0, frame = null, visible = true;
+  let width = 0, height = 0, frame = null, visible = false;
+  let time = 0;
 
   // Angular traces frame the content rather than passing through the headline.
-  function trace(points, brightness, strong) {
+  function trace(points, brightness, strong, phase = 0) {
     ctx.beginPath();
     points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
     ctx.strokeStyle = strong ? `rgba(0,190,255,${brightness})` : `rgba(0,92,255,${brightness})`;
     ctx.lineWidth = strong ? 1.8 : 1;
     ctx.shadowColor = '#007bff';
-    ctx.shadowBlur = strong ? 12 : 0;
+    ctx.shadowBlur = strong ? 18 : 5;
     ctx.stroke();
     const [x, y] = points[points.length - 1];
     ctx.beginPath();
@@ -152,10 +160,38 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
     ctx.fillStyle = ctx.strokeStyle;
     ctx.fill();
     ctx.shadowBlur = 0;
+    if (strong && !motion.matches) {
+      const lengths = points.slice(1).map(([px, py], i) => Math.hypot(px - points[i][0], py - points[i][1]));
+      const total = lengths.reduce((sum, length) => sum + length, 0);
+      const progress = ((time / 6500 + phase + surfaceIndex * 0.17) % 1.3) / 1.3;
+      // Fade in at entry and dissolve into the terminal instead of popping off.
+      const fade = Math.min(1, progress / 0.1, (1 - progress) / 0.18);
+      let distance = progress * total;
+      let x = points[0][0], y = points[0][1];
+      for (let i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i]) {
+          const fraction = lengths[i] ? distance / lengths[i] : 0;
+          x = points[i][0] + (points[i + 1][0] - points[i][0]) * fraction;
+          y = points[i][1] + (points[i + 1][1] - points[i][1]) * fraction;
+          break;
+        }
+        distance -= lengths[i];
+      }
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, 22);
+      glow.addColorStop(0, `rgba(225,250,255,${fade})`);
+      glow.addColorStop(0.15, `rgba(0,220,255,${fade * 0.95})`);
+      glow.addColorStop(0.5, `rgba(0,110,255,${fade * 0.45})`);
+      glow.addColorStop(1, 'rgba(0,92,255,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(x, y, 22, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   function render(now = 0) {
     frame = null;
+    time = now;
     ctx.clearRect(0, 0, width, height);
     const mobile = width < 640;
     const pulse = motion.matches ? 0.72 : 0.72 + 0.1 * Math.sin(now / 1800);
@@ -163,25 +199,25 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
     for (let i = 0; i < 6; i++) {
       const offset = i * (mobile ? 14 : 24);
       const strong = i === 1 || i === 4;
-      const alpha = (strong ? 0.58 : 0.25) * pulse;
+      const alpha = (strong ? 0.95 : 0.46) * pulse;
       trace([
         [width + 30, -30 + offset],
         [width - unit * 0.55, unit * 0.55 + offset],
         [width - unit * 0.94, unit * 0.55 + offset],
         [width - unit * 1.03, unit * 0.64 + offset]
-      ], alpha, strong);
+      ], alpha, strong, i * 0.19);
       trace([
         [width + 30, height * 0.55 + offset],
         [width - unit * 0.6, height * 0.55 + unit * 0.6 + offset],
         [width - unit * 1.02, height * 0.55 + unit * 0.6 + offset],
         [width - unit * 1.16, height * 0.55 + unit * 0.74 + offset]
-      ], alpha * 0.8, strong);
+      ], alpha * 0.9, strong, 0.45 + i * 0.19);
       trace([
         [-30, -30 + offset],
         [unit * 0.15, unit * 0.15 + offset],
         [unit * 0.48, unit * 0.15 + offset],
         [unit * 0.6, unit * 0.03 + offset]
-      ], alpha * 0.5, strong);
+      ], alpha * 0.8, strong, 0.8 + i * 0.19);
     }
     // Restrained rows of circuit contacts near the upper-right edge.
     ctx.fillStyle = `rgba(0,126,255,${0.35 * pulse})`;
@@ -214,4 +250,5 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
   motion.addEventListener('change', restart);
   document.addEventListener('visibilitychange', restart);
   resize();
+  });
 })();
