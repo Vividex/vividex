@@ -196,36 +196,41 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
     const mobile = width < 640;
     const pulse = motion.matches ? 0.72 : 0.72 + 0.1 * Math.sin(now / 1800);
     const unit = Math.min(width * 0.4, 480);
-    for (let i = 0; i < 6; i++) {
-      const offset = i * (mobile ? 14 : 24);
-      const strong = i === 1 || i === 4;
-      const alpha = (strong ? 0.95 : 0.46) * pulse;
-      trace([
-        [width + 30, -30 + offset],
-        [width - unit * 0.55, unit * 0.55 + offset],
-        [width - unit * 0.94, unit * 0.55 + offset],
-        [width - unit * 1.03, unit * 0.64 + offset]
-      ], alpha, strong, i * 0.19);
-      trace([
-        [width + 30, height * 0.55 + offset],
-        [width - unit * 0.6, height * 0.55 + unit * 0.6 + offset],
-        [width - unit * 1.02, height * 0.55 + unit * 0.6 + offset],
-        [width - unit * 1.16, height * 0.55 + unit * 0.74 + offset]
-      ], alpha * 0.9, strong, 0.45 + i * 0.19);
-      trace([
-        [-30, -30 + offset],
-        [unit * 0.15, unit * 0.15 + offset],
-        [unit * 0.48, unit * 0.15 + offset],
-        [unit * 0.6, unit * 0.03 + offset]
-      ], alpha * 0.8, strong, 0.8 + i * 0.19);
-    }
-    // Restrained rows of circuit contacts near the upper-right edge.
-    ctx.fillStyle = `rgba(0,126,255,${0.35 * pulse})`;
-    for (let i = 0; i < 5; i++) {
-      ctx.beginPath();
-      ctx.arc(width - unit * 0.75 + i * 18, unit * 0.42, 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    // Each section gets its own composition: different edges, bends and density.
+    const layouts = [
+      [{side: 'right', y: 0.02, count: 5, path: [[0,-30],[0.5,0.5],[0.88,0.5],[1,0.62]]},
+       {side: 'left', y: 0.02, count: 3, path: [[0,-30],[0.2,0.2],[0.58,0.2]]}],
+      [{side: 'right', y: 0.26, count: 4, path: [[0,0],[0.24,0.24],[0.24,0.55],[0.45,0.76],[0.72,0.76]]}],
+      [{side: 'left', y: 0.42, count: 3, path: [[0,0],[0.18,-0.18],[0.18,-0.42],[0.4,-0.64],[0.7,-0.64]]},
+       {side: 'right', y: 0.7, count: 2, path: [[0,0],[0.35,-0.35],[0.8,-0.35]]}],
+      [{side: 'right', y: 0.1, count: 5, path: [[0,0],[0.25,0.25],[0.55,0.25],[0.7,0.4],[0.7,0.62]]}],
+      [{side: 'left', y: 0.74, count: 4, path: [[0,0],[0.3,-0.3],[0.68,-0.3],[0.82,-0.44]]},
+       {side: 'right', y: 0.13, count: 2, path: [[0,0],[0.2,0.2],[0.2,0.5]]}],
+      [{side: 'right', y: 0.6, count: 3, path: [[0,0],[0.3,-0.3],[0.3,-0.55],[0.5,-0.75],[0.85,-0.75]]},
+       {side: 'left', y: 0.06, count: 2, path: [[0,0],[0.15,0.15],[0.55,0.15]]}],
+      [{side: 'right', y: 0.05, count: 3, path: [[0,0],[0.12,0.12],[0.55,0.12],[0.68,0]]}]
+    ];
+    const layout = layouts[surfaceIndex % layouts.length];
+    layout.forEach((bundle, bundleIndex) => {
+      for (let i = 0; i < bundle.count; i++) {
+        const offset = i * (mobile ? 12 : 22);
+        const strong = i === 1 || (bundle.count > 4 && i === 4);
+        const points = bundle.path.map(([x, y], pointIndex) => [
+          bundle.side === 'right' ? width + 12 - x * unit : -12 + x * unit,
+          height * bundle.y + (pointIndex === 0 && y === -30 ? -30 : y * unit) + offset
+        ]);
+        trace(points, (strong ? 0.95 : 0.46) * pulse, strong, i * 0.23 + bundleIndex * 0.43);
+      }
+      const endpoint = bundle.path[bundle.path.length - 1];
+      const tipX = bundle.side === 'right' ? width + 12 - endpoint[0] * unit : -12 + endpoint[0] * unit;
+      const tipY = height * bundle.y + endpoint[1] * unit;
+      ctx.fillStyle = `rgba(0,126,255,${0.35 * pulse})`;
+      for (let i = 0; i < 3 + surfaceIndex % 3; i++) {
+        ctx.beginPath();
+        ctx.arc(tipX + (bundle.side === 'right' ? 1 : -1) * i * 16, tipY - 18, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
     if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(render);
   }
 
