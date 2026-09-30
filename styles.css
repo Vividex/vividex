@@ -63,7 +63,6 @@ img { display: block; max-width: 100%; }
 }
 .brand-lockup { height: auto; object-fit: contain; mix-blend-mode: screen; }
 .nav-brand { width: 200px; }
-.hero-brand { width: clamp(260px, 34vw, 420px); margin-bottom: 28px; }
 .footer-brand-image { width: 220px; }
 .nav-logo:focus-visible, .footer-brand:focus-visible { outline: 2px solid var(--cyan); outline-offset: 6px; }
 .nav-links {
@@ -525,7 +524,6 @@ select option { background: #070c14; color: var(--white); }
 @media (max-width: 640px) {
   .nav-brand { width: clamp(140px, 40vw, 180px); }
   .nav-cta { padding: 9px 12px; }
-  .hero-brand { width: min(100%, 340px); }
   .hero {
     min-height: 85vh; justify-content: center;
     padding-top: 120px;
