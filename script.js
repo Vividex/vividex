@@ -127,101 +127,143 @@ document.querySelectorAll('.catalogue-nav').forEach(nav => {
   });
 });
 
-/* ── Hero signal background ── */
+/* ── Site circuit backgrounds ── */
 (function () {
-  const canvas = document.getElementById('hero-signal');
-  if (!canvas) return;
+  document.querySelectorAll('main > section, body > .footer').forEach((surface, surfaceIndex) => {
+  surface.classList.add('circuit-surface');
+  let canvas = surface.querySelector('#hero-signal');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    surface.prepend(canvas);
+  }
+  canvas.classList.add('circuit-canvas');
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
   const hero = canvas.parentElement;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let width = 0, height = 0, frame = null, visible = false;
+  let time = 0;
 
-  let dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = hero.clientWidth * dpr;
-    canvas.height = hero.clientHeight * dpr;
-    canvas.style.width = hero.clientWidth + 'px';
-    canvas.style.height = hero.clientHeight + 'px';
+  // Angular traces frame the content rather than passing through the headline.
+  function trace(points, brightness, strong, phase = 0) {
+    ctx.beginPath();
+    points.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+    ctx.strokeStyle = strong ? `rgba(0,190,255,${brightness})` : `rgba(0,92,255,${brightness})`;
+    ctx.lineWidth = strong ? 1.8 : 1;
+    ctx.shadowColor = '#007bff';
+    ctx.shadowBlur = strong ? 18 : 5;
+    ctx.stroke();
+    const [x, y] = points[points.length - 1];
+    ctx.beginPath();
+    ctx.arc(x, y, strong ? 3 : 2, 0, Math.PI * 2);
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    if (strong && !motion.matches) {
+      const lengths = points.slice(1).map(([px, py], i) => Math.hypot(px - points[i][0], py - points[i][1]));
+      const total = lengths.reduce((sum, length) => sum + length, 0);
+      const travelMs = 6500, flashMs = 180, fadeMs = 650, restMs = 500;
+      const cycleMs = travelMs + flashMs + fadeMs + restMs;
+      const elapsed = (time + (phase + surfaceIndex * 0.17) * cycleMs) % cycleMs;
+      const progress = Math.min(1, elapsed / travelMs);
+      const arrivalMs = elapsed - travelMs;
+      // Maintain full travelling luminosity; flash and fade only at the terminal.
+      const fade = arrivalMs < flashMs ? 1 : Math.max(0, 1 - (arrivalMs - flashMs) / fadeMs);
+      const terminalBrightness = arrivalMs >= 0 ? 1.25 : 1;
+      let distance = progress * total;
+      let [x, y] = points[points.length - 1];
+      for (let i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i]) {
+          const fraction = lengths[i] ? distance / lengths[i] : 0;
+          x = points[i][0] + (points[i + 1][0] - points[i][0]) * fraction;
+          y = points[i][1] + (points[i + 1][1] - points[i][1]) * fraction;
+          break;
+        }
+        distance -= lengths[i];
+      }
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, 22);
+      glow.addColorStop(0, `rgba(225,250,255,${fade})`);
+      glow.addColorStop(0.15, `rgba(0,220,255,${fade * 0.95})`);
+      glow.addColorStop(0.5, `rgba(0,110,255,${fade * 0.45})`);
+      glow.addColorStop(1, 'rgba(0,92,255,0)');
+      ctx.save();
+      ctx.filter = `brightness(${terminalBrightness})`;
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(x, y, 22, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
   }
-  resize();
-  window.addEventListener('resize', resize);
 
-  const FREQ = 1.6, AMP_FRAC = 0.1, BASE_FRAC = 0.72;
-
-  function lineY(nx, h, t) {
-    const baseY = h * BASE_FRAC;
-    const amp = h * AMP_FRAC;
-    return baseY - amp * Math.sin(nx * Math.PI * FREQ + t * 0.6) * (0.4 + 0.6 * nx);
-  }
-
-  function drawDots(w, h) {
-    ctx.save();
-    ctx.globalAlpha = 0.12;
-    ctx.fillStyle = '#00d9ff';
-    const spacing = 42 * dpr;
-    for (let y = 0; y < h; y += spacing) {
-      for (let x = 0; x < w; x += spacing) {
+  function render(now = 0) {
+    frame = null;
+    time = now;
+    ctx.clearRect(0, 0, width, height);
+    const mobile = width < 640;
+    const pulse = motion.matches ? 0.72 : 0.72 + 0.1 * Math.sin(now / 1800);
+    const unit = Math.min(width * 0.4, 480);
+    // Each section gets its own composition: different edges, bends and density.
+    const layouts = [
+      [{side: 'right', y: 0.02, count: 5, path: [[0,-30],[0.5,0.5],[0.88,0.5],[1,0.62]]},
+       {side: 'left', y: 0.02, count: 3, path: [[0,-30],[0.2,0.2],[0.58,0.2]]}],
+      [{side: 'right', y: 0.26, count: 4, path: [[0,0],[0.24,0.24],[0.24,0.55],[0.45,0.76],[0.72,0.76]]}],
+      [{side: 'left', y: 0.42, count: 5, path: [[0,0],[0.18,-0.18],[0.18,-0.42],[0.4,-0.64],[0.7,-0.64]]},
+       {side: 'right', y: 0.7, count: 4, path: [[0,0],[0.35,-0.35],[0.8,-0.35]]},
+       {side: 'right', y: 0.08, count: 3, path: [[0,0],[0.22,0.22],[0.58,0.22],[0.72,0.36]]},
+       {side: 'left', y: 0.85, count: 3, path: [[0,0],[0.22,-0.22],[0.6,-0.22]]}],
+      [{side: 'right', y: 0.1, count: 5, path: [[0,0],[0.25,0.25],[0.55,0.25],[0.7,0.4],[0.7,0.62]]}],
+      [{side: 'left', y: 0.74, count: 4, path: [[0,0],[0.3,-0.3],[0.68,-0.3],[0.82,-0.44]]},
+       {side: 'right', y: 0.13, count: 2, path: [[0,0],[0.2,0.2],[0.2,0.5]]}],
+      [{side: 'right', y: 0.6, count: 3, path: [[0,0],[0.3,-0.3],[0.3,-0.55],[0.5,-0.75],[0.85,-0.75]]},
+       {side: 'left', y: 0.06, count: 2, path: [[0,0],[0.15,0.15],[0.55,0.15]]}],
+      [{side: 'right', y: 0.05, count: 3, path: [[0,0],[0.12,0.12],[0.55,0.12],[0.68,0]]}]
+    ];
+    const layout = layouts[surfaceIndex % layouts.length];
+    layout.forEach((bundle, bundleIndex) => {
+      for (let i = 0; i < bundle.count; i++) {
+        const offset = i * (mobile ? 12 : 22);
+        const strong = i === 1 || (bundle.count > 4 && i === 4);
+        const points = bundle.path.map(([x, y], pointIndex) => [
+          bundle.side === 'right' ? width + 12 - x * unit : -12 + x * unit,
+          height * bundle.y + (pointIndex === 0 && y === -30 ? -30 : y * unit) + offset
+        ]);
+        trace(points, (strong ? 0.95 : 0.46) * pulse, strong, i * 0.23 + bundleIndex * 0.43);
+      }
+      const endpoint = bundle.path[bundle.path.length - 1];
+      const tipX = bundle.side === 'right' ? width + 12 - endpoint[0] * unit : -12 + endpoint[0] * unit;
+      const tipY = height * bundle.y + endpoint[1] * unit;
+      ctx.fillStyle = `rgba(0,126,255,${0.35 * pulse})`;
+      for (let i = 0; i < 3 + surfaceIndex % 3; i++) {
         ctx.beginPath();
-        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        ctx.arc(tipX + (bundle.side === 'right' ? 1 : -1) * i * 16, tipY - 18, 2, 0, Math.PI * 2);
         ctx.fill();
       }
-    }
-    ctx.restore();
+    });
+    if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(render);
   }
 
-  function drawLine(w, h, t) {
-    ctx.save();
-    ctx.beginPath();
-    for (let x = 0; x <= w; x += 4) {
-      const nx = x / w;
-      const y = lineY(nx, h, t);
-      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    const grad = ctx.createLinearGradient(0, 0, w, 0);
-    grad.addColorStop(0, 'rgba(0,92,255,0.15)');
-    grad.addColorStop(0.6, 'rgba(0,150,255,0.55)');
-    grad.addColorStop(1, 'rgba(0,217,255,0.9)');
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 2 * dpr;
-    ctx.shadowColor = 'rgba(0,217,255,0.6)';
-    ctx.shadowBlur = 14;
-    ctx.stroke();
-    ctx.restore();
+  function restart() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    render(performance.now());
   }
-
-  function pulsePosition(t) {
-    return 1.15 - (t * 0.175) % 1.3;
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = hero.clientWidth;
+    height = hero.clientHeight;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    restart();
   }
-
-  function drawPulse(w, h, t) {
-    const nx = pulsePosition(t);
-    if (nx < 0 || nx > 1) return;
-    const y = lineY(nx, h, t);
-    const x = nx * w;
-    const grad = ctx.createRadialGradient(x, y, 0, x, y, 26 * dpr);
-    grad.addColorStop(0, 'rgba(255,255,255,0.95)');
-    grad.addColorStop(0.3, 'rgba(0,217,255,0.7)');
-    grad.addColorStop(1, 'rgba(0,217,255,0)');
-    ctx.save();
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(x, y, 26 * dpr, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  let t = 0;
-  function draw() {
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    drawDots(w, h);
-    drawLine(w, h, t);
-    drawPulse(w, h, t);
-    if (!reduceMotion) {
-      t += 0.006;
-      requestAnimationFrame(draw);
-    }
-  }
-  draw();
+  new ResizeObserver(resize).observe(hero);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    restart();
+  }).observe(hero);
+  motion.addEventListener('change', restart);
+  document.addEventListener('visibilitychange', restart);
+  resize();
+  });
 })();
