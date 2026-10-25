@@ -22,7 +22,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: clip; }
 body {
   font-family: var(--fb); background: var(--ink); color: var(--white);
   overflow-x: hidden; -webkit-font-smoothing: antialiased;
@@ -61,7 +61,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--fd); font-size: 0.95rem; font-weight: 800;
   letter-spacing: 0.2em; color: var(--white); flex-shrink: 0;
 }
-.brand-lockup { height: auto; object-fit: contain; mix-blend-mode: screen; }
+.brand-lockup { height: auto; object-fit: contain; }
 .nav-brand { width: 200px; }
 .footer-brand-image { width: 220px; }
 .nav-logo:focus-visible, .footer-brand:focus-visible { outline: 2px solid var(--cyan); outline-offset: 6px; }
@@ -238,6 +238,8 @@ img { display: block; max-width: 100%; }
 
 /* ══ WORK / SHOWCASE ══ */
 .work {
+  /* Side drum cards sit beyond the viewport; clip them so mobile browsers don't widen the layout. */
+  overflow-x: clip;
   padding: clamp(80px,10vw,128px) clamp(24px,5vw,72px);
   background: var(--deep);
   border-top: 1px solid var(--line);
