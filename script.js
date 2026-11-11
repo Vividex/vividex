@@ -120,8 +120,18 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   if (!ctx) return;
   const hero = canvas.parentElement;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(pointer: fine)');
+  const isHero = surfaceIndex === 0;
   let width = 0, height = 0, frame = null, visible = false;
+  let lastDpr = 0, lastPaint = 0, scrolling = false, scrollIdleTimer = null;
   let time = 0;
+
+  // The hero keeps its travelling light on desktop only. Other sections
+  // retain the same circuit composition as a static backdrop.
+  function shouldAnimate() {
+    return isHero && visible && !scrolling && !document.hidden &&
+      !motion.matches && finePointer.matches && width >= 640;
+  }
 
   // Angular traces frame the content rather than passing through the headline.
   function trace(points, brightness, strong, phase = 0) {
@@ -138,7 +148,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     ctx.fillStyle = ctx.strokeStyle;
     ctx.fill();
     ctx.shadowBlur = 0;
-    if (strong && !motion.matches) {
+    if (strong && shouldAnimate()) {
       const lengths = points.slice(1).map(([px, py], i) => Math.hypot(px - points[i][0], py - points[i][1]));
       const total = lengths.reduce((sum, length) => sum + length, 0);
       const travelMs = 6500, flashMs = 180, fadeMs = 650, restMs = 500;
@@ -165,22 +175,19 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       glow.addColorStop(0.15, `rgba(0,220,255,${fade * 0.95})`);
       glow.addColorStop(0.5, `rgba(0,110,255,${fade * 0.45})`);
       glow.addColorStop(1, 'rgba(0,92,255,0)');
-      ctx.save();
-      ctx.filter = `brightness(${terminalBrightness})`;
+      // Avoid costly full-canvas filter compositing in the animation loop.
       ctx.fillStyle = glow;
       ctx.beginPath();
-      ctx.arc(x, y, 22, 0, Math.PI * 2);
+      ctx.arc(x, y, 22 * terminalBrightness, 0, Math.PI * 2);
       ctx.fill();
-      ctx.restore();
     }
   }
 
   function render(now = 0) {
-    frame = null;
     time = now;
     ctx.clearRect(0, 0, width, height);
     const mobile = width < 640;
-    const pulse = motion.matches ? 0.72 : 0.72 + 0.1 * Math.sin(now / 1800);
+    const pulse = shouldAnimate() ? 0.72 + 0.1 * Math.sin(now / 1800) : 0.72;
     const unit = Math.min(width * 0.4, 480);
     // Each section gets its own composition: different edges, bends and density.
     const layouts = [
@@ -219,29 +226,70 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         ctx.fill();
       }
     });
-    if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(render);
+    // Rendering is deliberately not scheduled here: only the hero's
+    // low-rate animation loop can schedule subsequent frames.
+  }
+
+  function tick(now) {
+    frame = null;
+    if (!shouldAnimate()) return;
+    // 15fps is sufficient for a slow travelling circuit pulse, and
+    // avoids repeatedly repainting an entire page-sized canvas at 60fps.
+    if (now - lastPaint >= 66) {
+      render(now);
+      lastPaint = now;
+    }
+    frame = requestAnimationFrame(tick);
   }
 
   function restart() {
     if (frame !== null) cancelAnimationFrame(frame);
-    render(performance.now());
+    frame = null;
+    if (isHero && scrolling) return;
+    const now = performance.now();
+    render(now);
+    lastPaint = now;
+    if (shouldAnimate()) frame = requestAnimationFrame(tick);
   }
+
   function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = hero.clientWidth;
-    height = hero.clientHeight;
+    const nextWidth = hero.clientWidth;
+    const nextHeight = hero.clientHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, nextWidth < 640 ? 1 : 1.25);
+    if (nextWidth === width && nextHeight === height && dpr === lastDpr) return;
+    width = nextWidth;
+    height = nextHeight;
+    lastDpr = dpr;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     restart();
   }
+
   new ResizeObserver(resize).observe(hero);
-  new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting;
-    restart();
-  }).observe(hero);
-  motion.addEventListener('change', restart);
-  document.addEventListener('visibilitychange', restart);
+  if (isHero) {
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      restart();
+    }).observe(hero);
+
+    // Stop painting during scrolling so the browser can prioritize
+    // responding to touch/wheel input. Resume only after scrolling ends.
+    window.addEventListener('scroll', () => {
+      scrolling = true;
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = null;
+      clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = setTimeout(() => {
+        scrolling = false;
+        if (visible) restart();
+      }, 230);
+    }, { passive: true });
+
+    motion.addEventListener('change', restart);
+    finePointer.addEventListener('change', restart);
+    document.addEventListener('visibilitychange', restart);
+  }
   resize();
   });
 })();
