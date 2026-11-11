@@ -38,94 +38,72 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-/* ── Work drum carousel ── */
-document.querySelectorAll('.catalogue-nav').forEach(nav => {
-  const prevBtn = nav.querySelector('.cat-prev');
-  const nextBtn = nav.querySelector('.cat-next');
-  const status = nav.querySelector('.cat-status');
-  const track = document.getElementById(prevBtn.dataset.target);
-  if (!track) return;
-  const stage = track.querySelector('.catalogue-stage');
-  const cards = Array.from(stage.querySelectorAll('.cat-card'));
-  if (!cards.length) return;
+/* ── Horizontal featured work gallery ── */
+(() => {
+  const gallery = document.getElementById('work-catalogue');
+  if (!gallery) return;
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const total = cards.length;
+  const rail = gallery.querySelector('.catalogue-stage');
+  const cards = Array.from(rail.querySelectorAll('.cat-card'));
+  const nav = document.querySelector('.work .catalogue-nav');
+  if (!nav || !cards.length) return;
+
+  const previous = nav.querySelector('.cat-prev');
+  const next = nav.querySelector('.cat-next');
+  const count = document.getElementById('work-catalogue-index');
+  const fill = document.getElementById('work-catalogue-progress-fill');
+  const progress = document.getElementById('work-catalogue-progress');
+  const status = document.getElementById('work-catalogue-status');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let current = 0;
+  let pendingFrame = null;
 
-  function sizeStage() {
-    stage.style.height = Math.max(...cards.map(c => c.offsetHeight)) + 'px';
+  function positions() {
+    return cards.map(card => card.offsetLeft - cards[0].offsetLeft);
   }
 
-  function layout() {
-    const radius = cards[0].offsetWidth * 1.05;
-    cards.forEach((card, i) => {
-      let offset = i - current;
-      if (offset > total / 2) offset -= total;
-      if (offset < -total / 2) offset += total;
-      const abs = Math.abs(offset);
-      const sign = Math.sign(offset);
-      const active = abs === 0;
+  function render(index) {
+    current = index;
+    cards.forEach((card, i) => card.classList.toggle('is-active', i === index));
+    previous.disabled = index === 0;
+    next.disabled = index === cards.length - 1;
+    count.textContent = String(index + 1).padStart(2, '0');
+    fill.style.width = ((index + 1) / cards.length * 100) + '%';
+    progress.setAttribute('aria-valuenow', String(index + 1));
+    const title = cards[index].querySelector('.cat-name');
+    status.textContent = 'Project ' + (index + 1) + ' of ' + cards.length + ': ' + (title ? title.textContent : '');
+  }
 
-      if (reduceMotion) {
-        card.style.transform = `translateX(-50%) scale(${active ? 1 : 0.92})`;
-        card.style.opacity = active ? '1' : '0';
-        card.style.filter = 'none';
-      } else {
-        let angle, scale, opacity, blur;
-        if (abs === 0)      { angle = 0;        scale = 1;    opacity = 1;    blur = 0; }
-        else if (abs === 1) { angle = 42 * sign; scale = 0.86; opacity = 0.55; blur = 1; }
-        else if (abs === 2) { angle = 78 * sign; scale = 0.74; opacity = 0;    blur = 2; }
-        else                { angle = 100 * sign; scale = 0.68; opacity = 0;   blur = 2; }
-        const rad = angle * Math.PI / 180;
-        const x = Math.sin(rad) * radius;
-        const z = -radius * (1 - Math.cos(rad));
-        card.style.transform = `translateX(-50%) translate3d(${x}px, 0, ${z}px) rotateY(${angle}deg) scale(${scale})`;
-        card.style.opacity = String(opacity);
-        card.style.filter = blur ? `blur(${blur}px)` : 'none';
-      }
-      card.style.zIndex = String(active ? 30 : 20 - abs);
-      card.dataset.active = String(active);
-      card.setAttribute('aria-hidden', String(!active));
-      const link = card.querySelector('a');
-      if (link) link.tabIndex = active ? 0 : -1;
+  function sync() {
+    pendingFrame = null;
+    const stops = positions();
+    const closest = stops.reduce((best, stop, i) =>
+      Math.abs(stop - rail.scrollLeft) < Math.abs(stops[best] - rail.scrollLeft) ? i : best, 0);
+    if (closest !== current) render(closest);
+  }
+
+  function goTo(index) {
+    const safe = Math.min(cards.length - 1, Math.max(0, index));
+    render(safe);
+    rail.scrollTo({
+      left: positions()[safe],
+      behavior: reducedMotion.matches ? 'instant' : 'smooth'
     });
   }
 
-  function updateStatus() {
-    if (!status) return;
-    const name = cards[current].querySelector('.cat-name');
-    status.textContent = `Project ${current + 1} of ${total}: ${name ? name.textContent : ''}`;
-  }
-
-  function go(delta) {
-    current = (current + delta + total) % total;
-    layout();
-    updateStatus();
-  }
-
-  prevBtn.disabled = total <= 1;
-  nextBtn.disabled = total <= 1;
-  prevBtn.addEventListener('click', () => go(-1));
-  nextBtn.addEventListener('click', () => go(1));
-  track.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+  previous.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+  rail.addEventListener('keydown', event => {
+    if (event.key === 'ArrowRight') { event.preventDefault(); goTo(current + 1); }
+    else if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(current - 1); }
   });
+  rail.addEventListener('scroll', () => {
+    if (pendingFrame === null) pendingFrame = requestAnimationFrame(sync);
+  }, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
 
-  sizeStage();
-  cards.forEach(c => { c.style.transition = 'none'; });
-  layout();
-  updateStatus();
-  void stage.offsetWidth;
-  requestAnimationFrame(() => cards.forEach(c => { c.style.transition = ''; }));
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { sizeStage(); layout(); }, 120);
-  });
-});
+  render(0);
+})();
 
 /* ── Site circuit backgrounds ── */
 (function () {

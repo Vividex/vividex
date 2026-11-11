@@ -122,69 +122,63 @@
 
     <!-- ░░ WORK ░░ -->
     <section id="work" class="work">
-      <div class="section-head">
-        <span class="section-label">02 — Featured Work</span>
-        <h2 class="section-h2">Projects we've delivered.</h2>
-      </div>
+      <div class="work-heading">
+        <div class="section-head">
+          <span class="section-label">02 — Featured Work</span>
+          <h2 class="section-h2">Projects we've delivered.</h2>
+        </div>
 
-      <div class="catalogue" id="work-catalogue" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Shipped projects">
-        <div class="catalogue-stage">
-
-          <!-- Project: Learn with Mentor -->
-          <article class="cat-card">
-            <div class="cat-shot">
-              <img src="assets/learn-with-mentor-homepage.webp" alt="Learn with Mentor homepage introducing AI-assisted learning in maths, science, English and history" loading="lazy" width="960" height="600">
-            </div>
-            <div class="cat-tags">
-              <span>Education</span><span>Web Application</span><span>AI Learning</span>
-            </div>
-            <h3 class="cat-name">Learn with Mentor</h3>
-            <p class="cat-desc">An interactive learning platform for maths, science, English and history. Explore lessons, practise skills, and learn alongside AI mentors inspired by great minds from history.</p>
-            <div class="cat-tech">
-              <span>Next.js</span><span>TypeScript</span><span>Supabase</span>
-            </div>
-            <a class="cat-link" href="https://www.learnwithmentor.com.au" target="_blank" rel="noopener">Visit Learn with Mentor ↗</a>
-          </article>
-
-          <!-- Project: TimeWiseHub -->
-          <article class="cat-card">
-            <div class="cat-shot">
-              <img src="assets/timewisehub-dashboard.png" alt="TimeWiseHub dashboard showing today's sessions, active clients, quick actions and task list" loading="lazy" width="1920" height="1020">
-            </div>
-            <div class="cat-tags">
-              <span>SaaS</span><span>Web Application</span><span>Desktop App</span>
-            </div>
-            <h3 class="cat-name">TimeWiseHub</h3>
-            <p class="cat-desc">A cloud-based productivity platform for Australian businesses. Time tracking, expense management, invoicing, leave requests, and team oversight — with a companion Windows desktop app.</p>
-            <div class="cat-tech">
-              <span>Next.js</span><span>Supabase</span><span>Stripe</span><span>Tauri</span><span>TypeScript</span>
-            </div>
-            <a class="cat-link" href="https://timewisehub.com.au" target="_blank" rel="noopener">Visit TimeWiseHub ↗</a>
-          </article>
-
-          <!-- Project: JetFit -->
-          <article class="cat-card">
-            <div class="cat-shot">
-              <img src="assets/jetfit-dashboard.png" alt="JetFit coach dashboard showing client overview, sessions this week, and quick actions" loading="lazy" width="1920" height="910">
-            </div>
-            <div class="cat-tags">
-              <span>SaaS</span><span>Web Application</span><span>Coaching Platform</span>
-            </div>
-            <h3 class="cat-name">JetFit</h3>
-            <p class="cat-desc">A client management platform for online fitness coaches. Onboarding, workout programming, nutrition tracking with barcode scanning, weekly check-ins, messaging, and direct invoicing.</p>
-            <div class="cat-tech">
-              <span>Next.js</span><span>TypeScript</span>
-            </div>
-            <a class="cat-link" href="https://jetfit.com.au" target="_blank" rel="noopener">Visit JetFit ↗</a>
-          </article>
-
+        <div class="catalogue-nav" aria-label="Browse featured projects">
+          <span class="cat-counter" aria-hidden="true"><span id="work-catalogue-index">01</span><span class="cat-count-total"> / 03</span></span>
+          <div class="cat-progress" role="progressbar" aria-label="Featured project" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="work-catalogue-progress">
+            <span class="cat-progress-fill" id="work-catalogue-progress-fill"></span>
+          </div>
+          <button class="cat-arrow cat-prev" type="button" aria-label="Previous project" data-target="work-catalogue" disabled>←</button>
+          <button class="cat-arrow cat-next" type="button" aria-label="Next project" data-target="work-catalogue">→</button>
+          <p class="cat-status sr-only" aria-live="polite" aria-atomic="true" id="work-catalogue-status"></p>
         </div>
       </div>
-      <div class="catalogue-nav">
-        <button class="cat-arrow cat-prev" type="button" aria-label="Previous project" data-target="work-catalogue">←</button>
-        <p class="cat-status sr-only" aria-live="polite" id="work-catalogue-status"></p>
-        <button class="cat-arrow cat-next" type="button" aria-label="Next project" data-target="work-catalogue">→</button>
+
+      <div class="catalogue" id="work-catalogue" role="region" aria-roledescription="carousel" aria-label="Featured Vividex projects">
+        <div class="catalogue-stage" tabindex="0" aria-label="Scroll featured projects horizontally">
+          <article class="cat-card is-active" role="group" aria-roledescription="slide" aria-label="1 of 3: Learn with Mentor">
+            <div class="cat-shot">
+              <img src="assets/learn-with-mentor-homepage.webp" alt="Actual Learn with Mentor homepage introducing maths, science, English and history" loading="lazy" width="960" height="600" draggable="false">
+            </div>
+            <div class="cat-caption">
+              <div class="cat-tags"><span>Education</span><span>Web Application</span><span>AI Learning</span></div>
+              <h3 class="cat-name">Learn with Mentor</h3>
+              <p class="cat-desc">An interactive learning platform for maths, science, English and history. Explore lessons, practise skills, and learn alongside AI mentors inspired by great minds from history.</p>
+              <a class="cat-link" href="https://www.learnwithmentor.com.au" target="_blank" rel="noopener noreferrer">Visit Learn with Mentor ↗</a>
+            </div>
+          </article>
+
+          <article class="cat-card" role="group" aria-roledescription="slide" aria-label="2 of 3: TimeWiseHub">
+            <div class="cat-shot">
+              <img src="assets/timewisehub-dashboard.png" alt="Actual TimeWiseHub dashboard showing sessions, clients, actions, and tasks" loading="lazy" width="1920" height="1020" draggable="false">
+            </div>
+            <div class="cat-caption">
+              <div class="cat-tags"><span>SaaS</span><span>Web Application</span><span>Desktop App</span></div>
+              <h3 class="cat-name">TimeWiseHub</h3>
+              <p class="cat-desc">A cloud-based productivity platform for Australian businesses. Time tracking, expense management, invoicing, leave requests, and team oversight — with a companion Windows desktop app.</p>
+              <a class="cat-link" href="https://timewisehub.com.au" target="_blank" rel="noopener noreferrer">Visit TimeWiseHub ↗</a>
+            </div>
+          </article>
+
+          <article class="cat-card" role="group" aria-roledescription="slide" aria-label="3 of 3: JetFit">
+            <div class="cat-shot">
+              <img src="assets/jetfit-dashboard.png" alt="Actual JetFit coach dashboard showing client overview, sessions, and quick actions" loading="lazy" width="1920" height="910" draggable="false">
+            </div>
+            <div class="cat-caption">
+              <div class="cat-tags"><span>SaaS</span><span>Web Application</span><span>Coaching Platform</span></div>
+              <h3 class="cat-name">JetFit</h3>
+              <p class="cat-desc">A client management platform for online fitness coaches. Onboarding, workout programming, nutrition tracking with barcode scanning, weekly check-ins, messaging, and direct invoicing.</p>
+              <a class="cat-link" href="https://jetfit.com.au" target="_blank" rel="noopener noreferrer">Visit JetFit ↗</a>
+            </div>
+          </article>
+        </div>
       </div>
+      <p class="cat-hint">Swipe, scroll horizontally, or use the arrows to explore projects.</p>
 
       <div class="more-projects">
         <div class="mp-text">
