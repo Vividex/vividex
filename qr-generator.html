@@ -33,6 +33,7 @@
   <script defer src="/assets/vendor/qrcode-generator.js"></script>
   <script defer src="/assets/vendor/qrcode-utf8.js"></script>
   <script defer src="/qr-generator.js"></script>
+  <script defer src="/nav-menu.js"></script>
 </head>
 <body class="qr-page">
   <div class="noise" aria-hidden="true"></div>
@@ -48,6 +49,21 @@
       <a href="/#contact">Contact</a>
     </nav>
     <a class="nav-cta" href="/#contact">Get in touch</a>
+    <div class="nav-mobile-actions">
+      <a class="nav-mobile-quick" href="/qr-generator" aria-current="page">Free QR <span aria-hidden="true">↗</span></a>
+      <button class="nav-mobile-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu">
+        <span class="nav-mobile-bars" aria-hidden="true"></span>
+      </button>
+    </div>
+    <nav class="nav-mobile-panel" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="/">Home <span aria-hidden="true">↗</span></a>
+      <a href="/#services">Services <span aria-hidden="true">↗</span></a>
+      <a href="/#work">Featured work <span aria-hidden="true">↗</span></a>
+      <a class="nav-mobile-featured" href="/qr-generator" aria-current="page">Free QR code generator <span aria-hidden="true">↗</span></a>
+      <a href="/#games">Games <span aria-hidden="true">↗</span></a>
+      <a href="/#process">Process <span aria-hidden="true">↗</span></a>
+      <a href="/#contact">Contact <span aria-hidden="true">↗</span></a>
+    </nav>
   </header>
 
   <main id="main-content">
