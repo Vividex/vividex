@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create free QR codes for websites, Wi-Fi, contact details, SMS and more. Customise colours and download high-resolution PNG or SVG QR codes. No signup or expiry.">
+  <meta name="theme-color" content="#05070b">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free QR Code Generator | Vividex">
+  <meta property="og:description" content="Make custom, downloadable QR codes for free. No account, no tracking and no subscription.">
+  <meta property="og:url" content="https://vividex.au/qr-generator">
+  <title>Free QR Code Generator | Custom PNG &amp; SVG | Vividex</title>
+  <link rel="canonical" href="https://vividex.au/qr-generator">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500..700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/qr-generator.css">
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"Vividex Free QR Code Generator",
+    "url":"https://vividex.au/qr-generator",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "isAccessibleForFree":true,
+    "description":"Create and customise static QR codes in your browser. Download printable PNG and SVG files without an account.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"AUD"},
+    "publisher":{"@type":"Organization","name":"Vividex","url":"https://vividex.au"}
+  }</script>
+  <script defer src="/assets/vendor/qrcode-generator.js"></script>
+  <script defer src="/assets/vendor/qrcode-utf8.js"></script>
+  <script defer src="/qr-generator.js"></script>
+</head>
+<body class="qr-page">
+  <div class="noise" aria-hidden="true"></div>
+  <header class="nav qr-navbar" id="top">
+    <a class="nav-logo" href="/" aria-label="Vividex home">
+      <img class="brand-lockup nav-brand" src="/assets/vividex-logo-transparent.png" alt="Vividex — Building Digital Experiences" width="1640" height="390">
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/#services">Services</a>
+      <a href="/#work">Work</a>
+      <a href="/qr-generator" aria-current="page">Free QR generator</a>
+      <a href="/#process">Process</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="/#contact">Get in touch</a>
+  </header>
+
+  <main id="main-content">
+    <section class="qr-hero" aria-labelledby="qr-title">
+      <div class="qr-hero-inner">
+        <div class="qr-eyebrow"><span class="qr-glow-dot" aria-hidden="true"></span> FREE VIVIDEX TOOLS <span class="qr-eyebrow-line" aria-hidden="true"></span> 01 / QR GENERATOR</div>
+        <h1 id="qr-title">Create a QR code.<br><span>Make it yours.</span></h1>
+        <p class="qr-hero-lead">Sharp, scan-ready QR codes for websites, Wi-Fi, contact details and more. Customise your code, then download it for print or digital use. Free, with no account required.</p>
+        <div class="qr-hero-points" aria-label="What you get">
+          <span><i aria-hidden="true">✓</i> Unlimited static codes</span>
+          <span><i aria-hidden="true">✓</i> PNG + SVG downloads</span>
+          <span><i aria-hidden="true">✓</i> Created in your browser</span>
+        </div>
+      </div>
+      <div class="qr-hero-decoration" aria-hidden="true"><div class="qr-deco-frame"><div class="qr-deco-grid"></div><div class="qr-deco-core"></div></div></div>
+    </section>
+
+    <section class="qr-workspace" aria-labelledby="builder-title">
+      <div class="qr-workspace-heading">
+        <span class="section-label">01 — The Generator</span>
+        <h2 id="builder-title" class="qr-section-title">Your code, your way.</h2>
+        <p>Choose what your QR code contains, customise the design and save it instantly.</p>
+      </div>
+
+      <div class="qr-builder-grid">
+        <div class="qr-builder-main">
+          <div class="qr-panel qr-content-panel">
+            <div class="qr-panel-heading"><div><span class="qr-step">STEP 01</span><h3>Choose your content</h3></div><span class="qr-panel-aside">7 formats</span></div>
+            <div class="qr-tabs" role="tablist" aria-label="QR code content type">
+              <button class="qr-tab is-selected" id="tab-url" type="button" role="tab" aria-selected="true" aria-controls="panel-url" tabindex="0" data-qr-type="url">Website</button>
+              <button class="qr-tab" id="tab-text" type="button" role="tab" aria-selected="false" aria-controls="panel-text" tabindex="-1" data-qr-type="text">Text</button>
+              <button class="qr-tab" id="tab-wifi" type="button" role="tab" aria-selected="false" aria-controls="panel-wifi" tabindex="-1" data-qr-type="wifi">Wi-Fi</button>
+              <button class="qr-tab" id="tab-email" type="button" role="tab" aria-selected="false" aria-controls="panel-email" tabindex="-1" data-qr-type="email">Email</button>
+              <button class="qr-tab" id="tab-phone" type="button" role="tab" aria-selected="false" aria-controls="panel-phone" tabindex="-1" data-qr-type="phone">Phone</button>
+              <button class="qr-tab" id="tab-sms" type="button" role="tab" aria-selected="false" aria-controls="panel-sms" tabindex="-1" data-qr-type="sms">SMS</button>
+              <button class="qr-tab" id="tab-contact" type="button" role="tab" aria-selected="false" aria-controls="panel-contact" tabindex="-1" data-qr-type="contact">Contact</button>
+            </div>
+            <form id="qr-form" novalidate>
+              <div class="qr-fields" id="panel-url" role="tabpanel" aria-labelledby="tab-url" data-panel="url">
+                <label for="qr-url">Website URL</label>
+                <input id="qr-url" name="url" type="text" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com.au" value="https://vividex.au" maxlength="2400">
+                <p class="qr-field-help">We'll automatically add https:// if you enter a domain without it.</p>
+              </div>
+              <div class="qr-fields" id="panel-text" role="tabpanel" aria-labelledby="tab-text" data-panel="text" hidden>
+                <label for="qr-text">Text to encode</label>
+                <textarea id="qr-text" rows="4" maxlength="2400" placeholder="Enter a message, address, instructions or any text..."></textarea>
+                <p class="qr-field-help">Ideal for short messages. Longer text creates more complex QR codes.</p>
+              </div>
+              <div class="qr-fields" id="panel-wifi" role="tabpanel" aria-labelledby="tab-wifi" data-panel="wifi" hidden>
+                <label for="qr-wifi-ssid">Wi-Fi network name (SSID)</label><input id="qr-wifi-ssid" type="text" autocomplete="off" placeholder="Your Wi-Fi name" maxlength="250">
+                <div class="qr-input-row">
+                  <div><label for="qr-wifi-security">Security</label><select id="qr-wifi-security"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP</option><option value="nopass">Open (no password)</option></select></div>
+                  <div id="qr-wifi-password-wrap"><label for="qr-wifi-password">Wi-Fi password</label><input id="qr-wifi-password" type="text" autocomplete="off" maxlength="250" placeholder="Your Wi-Fi password"></div>
+                </div>
+                <label class="qr-check-line" for="qr-wifi-hidden"><input id="qr-wifi-hidden" type="checkbox"> Hidden network</label>
+                <p class="qr-field-help">Anyone who scans this code can access the encoded network credentials. Share carefully.</p>
+              </div>
+              <div class="qr-fields" id="panel-email" role="tabpanel" aria-labelledby="tab-email" data-panel="email" hidden>
+                <label for="qr-email-to">Email address</label><input id="qr-email-to" type="email" autocomplete="email" placeholder="hello@example.com">
+                <label for="qr-email-subject">Subject <span class="qr-optional">optional</span></label><input id="qr-email-subject" type="text" maxlength="300" placeholder="Enquiry from your QR code">
+                <label for="qr-email-body">Message <span class="qr-optional">optional</span></label><textarea id="qr-email-body" rows="3" maxlength="1200" placeholder="Type a pre-filled email message"></textarea>
+              </div>
+              <div class="qr-fields" id="panel-phone" role="tabpanel" aria-labelledby="tab-phone" data-panel="phone" hidden>
+                <label for="qr-phone">Phone number</label><input id="qr-phone" type="tel" autocomplete="tel" placeholder="+61 2 4210 9815">
+                <p class="qr-field-help">Scanning opens the phone's dialler with the number ready.</p>
+              </div>
+              <div class="qr-fields" id="panel-sms" role="tabpanel" aria-labelledby="tab-sms" data-panel="sms" hidden>
+                <label for="qr-sms-to">Mobile number</label><input id="qr-sms-to" type="tel" placeholder="+61 400 000 000">
+                <label for="qr-sms-message">Message <span class="qr-optional">optional</span></label><textarea id="qr-sms-message" rows="3" maxlength="1200" placeholder="Type a pre-filled SMS message"></textarea>
+              </div>
+              <div class="qr-fields" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" data-panel="contact" hidden>
+                <div class="qr-input-row">
+                  <div><label for="qr-contact-first">First name</label><input id="qr-contact-first" type="text" autocomplete="given-name" placeholder="First name" maxlength="80"></div>
+                  <div><label for="qr-contact-last">Last name</label><input id="qr-contact-last" type="text" autocomplete="family-name" placeholder="Last name" maxlength="80"></div>
+                </div>
+                <label for="qr-contact-company">Company <span class="qr-optional">optional</span></label><input id="qr-contact-company" type="text" autocomplete="organization" placeholder="Business name" maxlength="100">
+                <label for="qr-contact-phone">Phone <span class="qr-optional">optional</span></label><input id="qr-contact-phone" type="tel" autocomplete="tel" placeholder="+61 400 000 000">
+                <label for="qr-contact-email">Email <span class="qr-optional">optional</span></label><input id="qr-contact-email" type="email" autocomplete="email" placeholder="you@yourbusiness.com.au">
+                <label for="qr-contact-website">Website <span class="qr-optional">optional</span></label><input id="qr-contact-website" type="text" autocomplete="url" placeholder="https://yourbusiness.com.au">
+                <p class="qr-field-help">Creates a vCard that scanners can save to their contacts.</p>
+              </div>
+            </form>
+          </div>
+
+          <div class="qr-panel qr-style-panel">
+            <div class="qr-panel-heading"><div><span class="qr-step">STEP 02</span><h3>Personalise the design</h3></div><span class="qr-panel-aside">Made to match</span></div>
+            <div class="qr-personal-grid">
+              <div class="qr-colour-group">
+                <label for="qr-foreground">QR pattern</label>
+                <div class="qr-colour-input"><input type="color" id="qr-foreground" value="#0a1938"><output id="qr-foreground-hex" for="qr-foreground">#0A1938</output></div>
+              </div>
+              <div class="qr-colour-group">
+                <label for="qr-background">Background</label>
+                <div class="qr-colour-input"><input type="color" id="qr-background" value="#ffffff"><output id="qr-background-hex" for="qr-background">#FFFFFF</output></div>
+              </div>
+            </div>
+            <div class="qr-swatches" aria-label="Quick colour presets">
+              <button type="button" class="qr-swatch is-selected" data-qr-foreground="#0a1938" data-qr-background="#ffffff" aria-label="Midnight navy on white" title="Midnight" style="--swatch:#0a1938"></button>
+              <button type="button" class="qr-swatch" data-qr-foreground="#000000" data-qr-background="#ffffff" aria-label="Classic black on white" title="Classic" style="--swatch:#000000"></button>
+              <button type="button" class="qr-swatch" data-qr-foreground="#005cff" data-qr-background="#ffffff" aria-label="Cobalt blue on white" title="Cobalt" style="--swatch:#005cff"></button>
+              <button type="button" class="qr-swatch" data-qr-foreground="#124c3c" data-qr-background="#ffffff" aria-label="Deep green on white" title="Green" style="--swatch:#124c3c"></button>
+            </div>
+            <div class="qr-input-row qr-settings-row">
+              <div><label for="qr-error-level">Error correction</label>
+                <select id="qr-error-level">
+                  <option value="L">Low — 7%</option><option value="M" selected>Medium — 15%</option><option value="Q">Quartile — 25%</option><option value="H">High — 30%</option>
+                </select>
+              </div>
+              <div><label for="qr-png-size">PNG resolution</label>
+                <select id="qr-png-size"><option value="512">512 × 512 px</option><option value="1024" selected>1024 × 1024 px</option><option value="2048">2048 × 2048 px</option></select>
+              </div>
+            </div>
+            <div class="qr-logo-area">
+              <div class="qr-logo-text"><strong>Centre logo <span class="qr-optional">optional</span></strong><span>Add your business logo to the centre of the code.</span></div>
+              <div class="qr-logo-buttons"><label class="qr-file-button" for="qr-logo">Upload logo</label><input id="qr-logo" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="qr-logo-help"><button type="button" id="qr-remove-logo" class="qr-remove-logo" hidden>Remove</button></div>
+              <p id="qr-logo-help" class="qr-field-help">PNG, JPG or WebP, max 2 MB. High error correction is applied automatically. Always test branded codes before printing.</p>
+              <span id="qr-logo-filename" class="qr-logo-filename" aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="qr-preview-panel qr-panel" aria-labelledby="qr-preview-title">
+          <div class="qr-panel-heading"><div><span class="qr-step">STEP 03</span><h3 id="qr-preview-title">Your QR code</h3></div><span id="qr-status-chip" class="qr-status-chip">READY</span></div>
+          <div class="qr-preview-frame"><canvas id="qr-preview" width="512" height="512" role="img" aria-label="Preview of your generated QR code"></canvas><span class="qr-preview-watermark" aria-hidden="true">VIVIDEX / QR</span></div>
+          <p id="qr-feedback" class="qr-feedback" aria-live="polite">Your QR code is ready. Change any setting to update it.</p>
+          <p id="qr-warning" class="qr-warning" role="status" hidden></p>
+          <div class="qr-download-actions">
+            <button type="button" class="qr-download-primary" id="qr-download-png">Download PNG <span aria-hidden="true">↗</span></button>
+            <button type="button" class="qr-download-secondary" id="qr-download-svg">Download SVG <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="qr-preview-divider"></div>
+          <p class="qr-preview-footnote"><span class="qr-lock" aria-hidden="true">◇</span> Generated locally. Your content isn't uploaded or stored by Vividex.</p>
+          <p class="qr-preview-footnote qr-test-note">Before printing: scan your finished code on at least two phones.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="qr-information" aria-labelledby="qr-explain-title">
+      <div class="qr-info-intro"><span class="section-label">02 — Good to know</span><h2 id="qr-explain-title" class="qr-section-title">Simple by design.<br><span>Useful in the real world.</span></h2></div>
+      <div class="qr-info-grid">
+        <article class="qr-info-card"><span class="qr-info-number">01</span><h3>Free means free.</h3><p>Create as many static QR codes as you need. No subscriptions, watermarks, accounts or hidden fees.</p></article>
+        <article class="qr-info-card"><span class="qr-info-number">02</span><h3>Made for the long run.</h3><p>Static codes do not have an expiry timer. A website QR code works for as long as its destination remains available.</p></article>
+        <article class="qr-info-card"><span class="qr-info-number">03</span><h3>Keep your data yours.</h3><p>The content is encoded directly on your device. Vividex does not receive or save the URLs, messages or Wi-Fi passwords you enter.</p></article>
+      </div>
+      <div class="qr-faq" aria-labelledby="qr-faq-title">
+        <h2 id="qr-faq-title">Questions, answered.</h2>
+        <details><summary>Do these QR codes expire?</summary><p>No. Static codes embed their content directly and have no built-in expiration. If the destination website changes or goes offline, that destination may stop working.</p></details>
+        <details><summary>Can I change the destination after printing?</summary><p>Not with a static QR code. To change a destination later, you'd need to generate a new code. Editable destinations and analytics may be available in a future dynamic QR service.</p></details>
+        <details><summary>Which download should I use for printing?</summary><p>SVG is ideal for print because it scales without losing sharpness. PNG works well for websites, signs and documents. Keep a clear margin around the code and test it with a phone before printing.</p></details>
+        <details><summary>Does Vividex store my QR code content?</summary><p>No. This tool runs in your browser and does not send the entered content to a generation server. Downloads are created on your device.</p></details>
+      </div>
+    </section>
+
+    <section class="qr-contact-banner" aria-labelledby="qr-contact-title">
+      <div><span class="section-label">03 — Beyond the code</span><h2 id="qr-contact-title">Need something built around it?</h2><p>From QR-linked landing pages to fully custom systems, Vividex builds digital tools that move businesses forward.</p></div>
+      <a href="/#contact" class="btn-prim">Start a project <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="footer qr-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="/" aria-label="Vividex home"><img class="brand-lockup footer-brand-image" src="/assets/vividex-logo-transparent.png" alt="Vividex — Building Digital Experiences" width="1640" height="390" loading="lazy"></a>
+      <nav class="footer-nav" aria-label="Footer"><a href="/">Home</a><a href="/#services">Services</a><a href="/#work">Work</a><a href="/qr-generator" aria-current="page">Free QR generator</a><a href="/#contact">Contact</a></nav>
+      <div class="footer-legal"><span>© 2026 Vividex</span><span>ABN 35 253 374 165</span><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
+    </div>
+  </footer>
+</body>
+</html>
